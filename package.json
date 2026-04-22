@@ -1,0 +1,31 @@
+{
+  "name": "sweep-ui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "echo 'lint placeholder'",
+    "typecheck": "tsc -b --pretty"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.5",
+    "@tanstack/react-table": "^8.15.0",
+    "react": "^18.2.0",
+    "react-data-table-component": "^7.7.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.27.0",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.46",
+    "@types/react-dom": "^18.2.18",
+    "@vitejs/plugin-react": "^5.1.0",
+    "typescript": "^5.6.2",
+    "vite": "^5.4.0"
+  }
+}
