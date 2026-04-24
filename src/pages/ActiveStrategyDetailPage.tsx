@@ -90,14 +90,14 @@ const glyphBtn: React.CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  border: '1px solid #777',
+  border: '1px solid var(--line)',
   borderRadius: 6,
   background: 'transparent',
   cursor: 'pointer',
   fontSize: 14,
   lineHeight: 1,
   padding: 0,
-  color: '#222',
+  color: 'var(--fg)',
 }
 
 export default function ActiveStrategyDetailPage() {
@@ -279,7 +279,7 @@ async function toggleStopHistory(tradeId: string) {
                     <div style={{
                       width: 10,
                       height: h,
-                      background: isNeg ? '#ef4444' : '#22c55e',
+                      background: isNeg ? 'var(--err)' : 'var(--ok)',
                       borderRadius: 2,
                       opacity: 0.85,
                     }} />
@@ -297,7 +297,7 @@ async function toggleStopHistory(tradeId: string) {
                     <div style={{
                       width: 10,
                       height: h,
-                      background: '#60a5fa',
+                      background: 'var(--link)',
                       borderRadius: 2,
                       opacity: 0.85,
                     }} />

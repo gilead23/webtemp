@@ -116,14 +116,14 @@ function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: (v: b
       onClick={() => onChange(!checked)}
       style={{
         width: 36, height: 20, borderRadius: 10,
-        background: checked ? 'var(--ok)' : '#333',
+        background: checked ? 'var(--ok)' : 'var(--panel2)',
         position: 'relative', cursor: 'pointer',
         transition: 'background 0.15s',
       }}
     >
       <div style={{
         width: 16, height: 16, borderRadius: 8,
-        background: '#fff',
+        background: 'var(--fg)',
         position: 'absolute', top: 2,
         left: checked ? 18 : 2,
         transition: 'left 0.15s',

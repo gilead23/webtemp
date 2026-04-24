@@ -177,10 +177,10 @@ function fmtDate(s: string | null | undefined) {
   return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`
 }
 
-const th: React.CSSProperties = { textAlign: 'left', borderBottom: '1px solid #ddd', padding: '8px 6px', whiteSpace: 'nowrap' }
-const td: React.CSSProperties = { borderBottom: '1px solid #eee', padding: '8px 6px', verticalAlign: 'top' }
+const th: React.CSSProperties = { textAlign: 'left', borderBottom: '1px solid var(--line)', padding: '8px 6px', whiteSpace: 'nowrap' }
+const td: React.CSSProperties = { borderBottom: '1px solid var(--line)', padding: '8px 6px', verticalAlign: 'top' }
 const glyphBtn: React.CSSProperties = {
   width: 24, height: 24, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-  border: '1px solid #777', borderRadius: 6, background: 'transparent', cursor: 'pointer',
-  fontSize: 14, lineHeight: 1, padding: 0, color: '#222',
+  border: '1px solid var(--line)', borderRadius: 6, background: 'transparent', cursor: 'pointer',
+  fontSize: 14, lineHeight: 1, padding: 0, color: 'var(--fg)',
 }

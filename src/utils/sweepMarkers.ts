@@ -1,73 +1,81 @@
-// ---- Sweep marker syntax ----
-// Sweep markers use guillemets «» to delimit swept parameter values in expression text.
-// Example: sma(close(), «10,20,50») means "sweep sma window over 10, 20, 50".
-// These are expanded into multiple concrete expression strings at save time.
-export const SWEEP_OPEN = '«';
-export const SWEEP_CLOSE = '»';
-export const SWEEP_MARKER_RE = /«([^»]+)»/g;
-
 /**
- * Expand an expression template containing «...» sweep markers into
- * the Cartesian product of all concrete expression strings.
+ * Sweep markers — delimit alternative values inside an expression so a single
+ * expression can describe N permutations.
  *
- * Example: "sma(close(), «10,20») > ema(close(), «5,10»)"
- * → ["sma(close(), 10) > ema(close(), 5)",
- *    "sma(close(), 10) > ema(close(), 10)",
- *    "sma(close(), 20) > ema(close(), 5)",
- *    "sma(close(), 20) > ema(close(), 10)"]
+ * Syntax:  «v1,v2,v3»   (using Unicode guillemets, so it doesn't collide with < >)
+ *
+ * Numeric & string values supported. Nested markers are NOT supported.
  */
-export function expandSweepMarkers(template: string): string[] {
-  // Find all sweep markers
-  const markers: { fullMatch: string; values: string[] }[] = [];
-  let m: RegExpExecArray | null;
-  const re = new RegExp(SWEEP_MARKER_RE.source, 'g');
-  while ((m = re.exec(template)) !== null) {
-    const valStr = m[1];
-    const values = valStr.split(',').map(s => s.trim()).filter(Boolean);
-    markers.push({ fullMatch: m[0], values });
-  }
 
-  if (markers.length === 0) {
-    return [template];
-  }
+export const SWEEP_OPEN = '\u00AB';  // «
+export const SWEEP_CLOSE = '\u00BB'; // »
 
-  // Build Cartesian product
-  function cartesian(arrays: string[][]): string[][] {
-    if (arrays.length === 0) return [[]];
-    const [first, ...rest] = arrays;
-    const restCombos = cartesian(rest);
-    const result: string[][] = [];
-    for (const val of first) {
-      for (const combo of restCombos) {
-        result.push([val, ...combo]);
-      }
-    }
-    return result;
-  }
+const SWEEP_RE = new RegExp(
+  SWEEP_OPEN.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') +
+    '([^' + SWEEP_OPEN + SWEEP_CLOSE + ']*)' +
+    SWEEP_CLOSE.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+  'g',
+);
 
-  const valueArrays = markers.map(mk => mk.values);
-  const combos = cartesian(valueArrays);
-
-  return combos.map(combo => {
-    let result = template;
-    for (let i = 0; i < markers.length; i++) {
-      result = result.replace(markers[i].fullMatch, combo[i]);
-    }
-    return result;
-  });
-}
-
-/**
- * Check whether an expression template contains any sweep markers.
- */
 export function hasSweepMarkers(text: string): boolean {
-  return SWEEP_MARKER_RE.test(text);
+  if (!text) return false;
+  return text.indexOf(SWEEP_OPEN) !== -1 && text.indexOf(SWEEP_CLOSE) !== -1;
+}
+
+/** Extract the variants from each «...» block in source order. */
+function extractVariants(text: string): string[][] {
+  const out: string[][] = [];
+  SWEEP_RE.lastIndex = 0;
+  let m: RegExpExecArray | null;
+  while ((m = SWEEP_RE.exec(text)) !== null) {
+    const vs = m[1].split(',').map(s => s.trim()).filter(s => s.length > 0);
+    out.push(vs.length ? vs : ['']);
+  }
+  return out;
+}
+
+/** Cartesian-product size of all markers. Returns 1 if there are none. */
+export function countSweepPermutations(text: string): number {
+  if (!hasSweepMarkers(text)) return 1;
+  const variants = extractVariants(text);
+  if (variants.length === 0) return 1;
+  return variants.reduce((n, v) => n * Math.max(1, v.length), 1);
 }
 
 /**
- * Count the total number of permutations from sweep markers.
+ * Expand the markers into the full list of concrete expressions.
+ * Example:  "x + «1,2» - «10,20»"  →  ["x + 1 - 10","x + 1 - 20","x + 2 - 10","x + 2 - 20"]
  */
-export function countSweepPermutations(text: string): number {
-  const expanded = expandSweepMarkers(text);
-  return expanded.length;
+export function expandSweepMarkers(text: string): string[] {
+  if (!hasSweepMarkers(text)) return [text];
+
+  // Split the string into alternating literal / marker fragments so we can
+  // recombine with every cartesian assignment.
+  const fragments: Array<{ kind: 'lit'; text: string } | { kind: 'var'; options: string[] }> = [];
+  let cursor = 0;
+  SWEEP_RE.lastIndex = 0;
+  let m: RegExpExecArray | null;
+  while ((m = SWEEP_RE.exec(text)) !== null) {
+    if (m.index > cursor) fragments.push({ kind: 'lit', text: text.slice(cursor, m.index) });
+    const opts = m[1].split(',').map(s => s.trim()).filter(s => s.length > 0);
+    fragments.push({ kind: 'var', options: opts.length ? opts : [''] });
+    cursor = m.index + m[0].length;
+  }
+  if (cursor < text.length) fragments.push({ kind: 'lit', text: text.slice(cursor) });
+
+  // Cartesian expand
+  const assignments: string[][] = [[]];
+  for (const f of fragments) {
+    if (f.kind === 'lit') {
+      for (const a of assignments) a.push(f.text);
+    } else {
+      const next: string[][] = [];
+      for (const a of assignments) {
+        for (const opt of f.options) next.push([...a, opt]);
+      }
+      assignments.length = 0;
+      assignments.push(...next);
+    }
+  }
+  return assignments.map(a => a.join(''));
 }

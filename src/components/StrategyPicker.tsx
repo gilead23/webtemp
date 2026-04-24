@@ -279,7 +279,7 @@ export default function StrategyPicker({
         <div className="row" style={{gap:8, alignItems:'baseline'}}>
           <h3 style={{margin:0}}>{title}</h3>
           {loading && <span className="hint">loading…</span>}
-          {error && <span className="hint" style={{color:'#fca5a5'}}>error: {error}</span>}
+          {error && <span className="hint" style={{color:'var(--err)'}}>error: {error}</span>}
         </div>
         <div className="row" style={{gap:8, alignItems:'center'}}>
           <select

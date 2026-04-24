@@ -43,15 +43,15 @@ export default function Run(){
             placeholder="Enter run id (e.g., backtest_01)"
             value={entered}
             onChange={e=>setEntered(e.target.value)}
-            style={{padding:'8px 12px', border:'1px solid #ccc', borderRadius:6, width:320}}
+            style={{padding:'8px 12px', border:'1px solid var(--line)', borderRadius:6, width:320}}
           />
           <button
             onClick={()=> entered && navigate(`/run/${encodeURIComponent(entered)}`)}
-            style={{marginLeft:8, padding:'8px 12px', borderRadius:6, border:'1px solid #333', background:'#fff'}}
+            style={{marginLeft:8, padding:'8px 12px', borderRadius:6, border:'1px solid var(--line)', background:'var(--panel)'}}
           >
             Open
           </button>
-          <span style={{marginLeft:12, color:'#666'}}>
+          <span style={{marginLeft:12, color:'var(--muted)'}}>
             or <Link to="/runs">pick from list</Link>
           </span>
         </div>
@@ -70,8 +70,8 @@ export default function Run(){
           <table style={{borderCollapse:'collapse', width:'100%', maxWidth:600}}>
             <thead>
               <tr>
-                <th style={{textAlign:'left', padding:'4px 6px', borderBottom:'1px solid #ddd'}}>#</th>
-                <th style={{textAlign:'left', padding:'4px 6px', borderBottom:'1px solid #ddd'}}>Profit factor</th>
+                <th style={{textAlign:'left', padding:'4px 6px', borderBottom:'1px solid var(--line)'}}>#</th>
+                <th style={{textAlign:'left', padding:'4px 6px', borderBottom:'1px solid var(--line)'}}>Profit factor</th>
               </tr>
             </thead>
             <tbody>
@@ -79,8 +79,8 @@ export default function Run(){
                 const pf = toNum((row as any)?.profit_factor);
                 return (
                   <tr key={idx}>
-                    <td style={{padding:'4px 6px', borderBottom:'1px solid #f0f0f0'}}>{idx+1}</td>
-                    <td style={{padding:'4px 6px', borderBottom:'1px solid #f0f0f0'}}>
+                    <td style={{padding:'4px 6px', borderBottom:'1px solid var(--line)'}}>{idx+1}</td>
+                    <td style={{padding:'4px 6px', borderBottom:'1px solid var(--line)'}}>
                       {Number.isFinite(pf) ? pf.toFixed(3) : '—'}
                     </td>
                   </tr>
@@ -91,7 +91,7 @@ export default function Run(){
         </div>
       )}
       <div style={{marginTop:12}}>Best profit factor: {bestProfitFactor == null ? '—' : bestProfitFactor.toFixed(3)}</div>
-      <pre style={{marginTop:16, background:'#f7f7f7', padding:12}}>
+      <pre style={{marginTop:16, background:'var(--panel2)', padding:12}}>
         {JSON.stringify({run, count_summary: summary.length}, null, 2)}
       </pre>
     </div>

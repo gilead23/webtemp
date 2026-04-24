@@ -230,13 +230,13 @@ Required sessions: 20 + (3-1)*10 = 40.
           <div className="row" style={{gap:12, flexWrap:'wrap'}}>
             <span className="badge">available sessions: {sessionsAvail}</span>
             <span className="badge">required: {requiredSessions}</span>
-            <span className="badge" style={{background: feasible ? '#164e3f' : '#5a1f1f'}}>{feasible ? 'feasible' : 'not feasible'}</span>
+            <span className="badge" style={{background: feasible ? 'color-mix(in oklab, var(--ok) 22%, transparent)' : 'color-mix(in oklab, var(--err) 22%, transparent)'}}>{feasible ? 'feasible' : 'not feasible'}</span>
           </div>
         </div>
       )}
 
       {err && (
-        <div className="alert" role="alert" style={{background:'#5a1f1f', padding:'8px 12px', borderRadius:8}}>
+        <div className="alert" role="alert" style={{background:'color-mix(in oklab, var(--err) 22%, transparent)', padding:'8px 12px', borderRadius:8}}>
           <div style={{fontWeight:600}}>Error starting run</div>
           <div style={{opacity:0.9, whiteSpace:'pre-wrap'}}>{err}</div>
         </div>

@@ -66,10 +66,10 @@ const cardStyle: CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   borderRadius: 8,
-  border: '1px solid #374151',
-  backgroundColor: '#0f172a',
+  border: '1px solid var(--line)',
+  backgroundColor: 'var(--panel)',
   boxShadow: '0 20px 40px rgba(0,0,0,0.7)',
-  color: '#e5e7eb',
+  color: 'var(--fg)',
   overflow: 'hidden',
 };
 
@@ -78,20 +78,20 @@ const headerStyle: CSSProperties = {
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '12px 16px',
-  borderBottom: '1px solid #1e293b',
+  borderBottom: '1px solid var(--line)',
   flexShrink: 0,
 };
 
 const headerTitleStyle: CSSProperties = {
   fontSize: 14,
   fontWeight: 600,
-  color: '#f1f5f9',
+  color: 'var(--fg)',
   margin: 0,
 };
 
 const closeBtnStyle: CSSProperties = {
   fontSize: 12,
-  color: '#9ca3af',
+  color: 'var(--muted)',
   background: 'none',
   border: 'none',
   cursor: 'pointer',
@@ -107,7 +107,7 @@ const bodyStyle: CSSProperties = {
 
 const leftPaneStyle: CSSProperties = {
   width: 280,
-  borderRight: '1px solid #1e293b',
+  borderRight: '1px solid var(--line)',
   display: 'flex',
   flexDirection: 'column',
   flexShrink: 0,
@@ -115,7 +115,7 @@ const leftPaneStyle: CSSProperties = {
 
 const searchBoxStyle: CSSProperties = {
   padding: 8,
-  borderBottom: '1px solid #1e293b',
+  borderBottom: '1px solid var(--line)',
 };
 
 const searchInputStyle: CSSProperties = {
@@ -123,9 +123,9 @@ const searchInputStyle: CSSProperties = {
   padding: '5px 8px',
   fontSize: 11,
   borderRadius: 4,
-  border: '1px solid #374151',
-  backgroundColor: '#020617',
-  color: '#e5e7eb',
+  border: '1px solid var(--line)',
+  backgroundColor: 'var(--bg)',
+  color: 'var(--fg)',
   outline: 'none',
   boxSizing: 'border-box',
 };
@@ -141,17 +141,17 @@ const flagItemStyle = (active: boolean): CSSProperties => ({
   textAlign: 'left' as const,
   padding: '6px 10px',
   border: 'none',
-  borderBottom: '1px solid #111827',
+  borderBottom: '1px solid var(--line)',
   cursor: 'pointer',
-  backgroundColor: active ? '#0369a1' : 'transparent',
-  color: active ? '#f9fafb' : '#e5e7eb',
+  backgroundColor: active ? 'color-mix(in oklab, var(--link) 55%, var(--panel))' : 'transparent',
+  color: active ? 'var(--fg)' : 'var(--fg)',
   fontSize: 11,
   display: 'block',
 });
 
 const flagItemCategoryStyle: CSSProperties = {
   fontSize: 9,
-  color: '#6b7280',
+  color: 'var(--muted)',
   marginTop: 1,
 };
 
@@ -164,7 +164,7 @@ const rightPaneStyle: CSSProperties = {
 };
 
 const defHeaderStyle: CSSProperties = {
-  borderBottom: '1px solid #1e293b',
+  borderBottom: '1px solid var(--line)',
   padding: '10px 14px',
   flexShrink: 0,
 };
@@ -172,12 +172,12 @@ const defHeaderStyle: CSSProperties = {
 const defLabelStyle: CSSProperties = {
   fontSize: 13,
   fontWeight: 600,
-  color: '#f1f5f9',
+  color: 'var(--fg)',
 };
 
 const defDescStyle: CSSProperties = {
   fontSize: 10,
-  color: '#9ca3af',
+  color: 'var(--muted)',
   marginTop: 4,
   lineHeight: 1.4,
 };
@@ -207,20 +207,20 @@ const paramCardItemStyle: CSSProperties = {
   gap: 4,
   padding: '8px 10px',
   borderRadius: 6,
-  backgroundColor: '#020617',
-  border: '1px solid #1e293b',
+  backgroundColor: 'var(--bg)',
+  border: '1px solid var(--line)',
   fontSize: 11,
 };
 
 const paramNameStyle: CSSProperties = {
   fontSize: 11,
   fontWeight: 600,
-  color: '#93c5fd',
+  color: 'var(--link)',
 };
 
 const paramDescriptionStyle: CSSProperties = {
   fontSize: 10,
-  color: '#9ca3af',
+  color: 'var(--muted)',
   lineHeight: 1.3,
 };
 
@@ -229,7 +229,7 @@ const emptyRightPaneStyle: CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '#6b7280',
+  color: 'var(--muted)',
   fontSize: 11,
 };
 
@@ -238,7 +238,7 @@ const footerStyle: CSSProperties = {
   justifyContent: 'flex-end',
   gap: 8,
   padding: '10px 16px',
-  borderTop: '1px solid #1e293b',
+  borderTop: '1px solid var(--line)',
   flexShrink: 0,
 };
 
@@ -246,9 +246,9 @@ const cancelBtnStyle: CSSProperties = {
   fontSize: 11,
   borderRadius: 999,
   padding: '5px 14px',
-  border: '1px solid #4b5563',
-  backgroundColor: '#111827',
-  color: '#e5e7eb',
+  border: '1px solid var(--line)',
+  backgroundColor: 'var(--panel2)',
+  color: 'var(--fg)',
   cursor: 'pointer',
 };
 
@@ -256,9 +256,9 @@ const saveBtnStyle = (enabled: boolean): CSSProperties => ({
   fontSize: 11,
   borderRadius: 999,
   padding: '5px 14px',
-  border: '1px solid #0ea5e9',
-  backgroundColor: enabled ? '#0ea5e9' : '#1e293b',
-  color: enabled ? '#0b1120' : '#6b7280',
+  border: '1px solid var(--link)',
+  backgroundColor: enabled ? 'var(--link)' : 'var(--panel2)',
+  color: enabled ? 'var(--bg)' : 'var(--muted)',
   cursor: enabled ? 'pointer' : 'default',
   opacity: enabled ? 1 : 0.5,
 });
@@ -421,22 +421,22 @@ export const FlagParamModal: React.FC<FlagParamModalProps> = ({
         .flag-modal-dark input[type="text"],
         .flag-modal-dark input[type="number"],
         .flag-modal-dark select {
-          background-color: #0f172a !important;
-          color: #e5e7eb !important;
-          border: 1px solid #374151 !important;
+          background-color: var(--panel) !important;
+          color: var(--fg) !important;
+          border: 1px solid var(--line) !important;
           border-radius: 4px !important;
         }
         .flag-modal-dark input[type="text"]:focus,
         .flag-modal-dark input[type="number"]:focus,
         .flag-modal-dark select:focus {
-          border-color: #0ea5e9 !important;
+          border-color: var(--link) !important;
           outline: none !important;
         }
         .flag-modal-dark span {
-          color: #9ca3af !important;
+          color: var(--muted) !important;
         }
         .flag-modal-dark label {
-          color: #9ca3af !important;
+          color: var(--muted) !important;
         }
       `}</style>
       <div
@@ -512,7 +512,7 @@ export const FlagParamModal: React.FC<FlagParamModalProps> = ({
                 </div>
                 <div style={useGrid ? paramGridStyle : paramColumnStyle}>
                   {selectedDef.params.length === 0 && (
-                    <div style={{ fontStyle: 'italic', color: '#6b7280', fontSize: 11 }}>
+                    <div style={{ fontStyle: 'italic', color: 'var(--muted)', fontSize: 11 }}>
                       This flag has no configurable parameters.
                     </div>
                   )}
@@ -527,12 +527,12 @@ export const FlagParamModal: React.FC<FlagParamModalProps> = ({
                           {p.label ?? p.name}
                         </span>
                         {p.dataType && (
-                          <span style={{ fontSize: 9, color: '#6b7280', fontFamily: 'monospace' }}>
+                          <span style={{ fontSize: 9, color: 'var(--muted)', fontFamily: 'monospace' }}>
                             {p.dataType}
                           </span>
                         )}
                         {p.defaultValue != null && (
-                          <span style={{ fontSize: 9, color: '#6b7280' }}>
+                          <span style={{ fontSize: 9, color: 'var(--muted)' }}>
                             = {String(p.defaultValue)}
                           </span>
                         )}

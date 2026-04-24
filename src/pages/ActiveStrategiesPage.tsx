@@ -181,7 +181,7 @@ export default function ActiveStrategiesPage() {
   }
 
   const actionsTdStyle: React.CSSProperties = {
-    borderBottom: '1px solid #eee',
+    borderBottom: '1px solid var(--line)',
     padding: '8px 6px',
     verticalAlign: 'top',
     width: 210,
@@ -413,7 +413,7 @@ const glyphBtn: React.CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  border: '1px solid #777',
+  border: '1px solid var(--line)',
   borderRadius: 6,
   background: 'transparent',
   cursor: 'pointer',

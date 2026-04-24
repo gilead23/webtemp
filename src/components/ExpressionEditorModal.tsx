@@ -265,7 +265,7 @@ export default function ExpressionEditorModal(props: ExpressionEditorModalProps)
             {hasSweeps && (
               <span style={{
                 fontSize: 10, padding: '2px 8px', borderRadius: 999,
-                border: '1px solid #0ea5e9', color: '#7dd3fc',
+                border: '1px solid var(--link)', color: 'var(--link)',
                 backgroundColor: 'rgba(14, 165, 233, 0.1)', whiteSpace: 'nowrap',
               }}>
                 {sweepCount} permutations

@@ -198,7 +198,7 @@ export default function Results(){
                  onChange={(e) => setPromoteName(e.target.value)}
                  placeholder="e.g. RSI breakout - small caps"
                  disabled={promoting}
-                 style={{ padding: '8px 10px', borderRadius: 8, border: '1px solid #ccc' }}
+                 style={{ padding: '8px 10px', borderRadius: 8, border: '1px solid var(--line)' }}
                />
              </label>
              <label style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -209,7 +209,7 @@ export default function Results(){
                  placeholder="What is this strategy and why should I care?"
                  disabled={promoting}
                  rows={3}
-                 style={{ padding: '8px 10px', borderRadius: 8, border: '1px solid #ccc' }}
+                 style={{ padding: '8px 10px', borderRadius: 8, border: '1px solid var(--line)' }}
                />
              </label>
            </div>
@@ -380,7 +380,7 @@ function Table({
                 <tr>
                   <td style={{...td, width:28, textAlign:'center'}}>
                     <button
-                      style={{ width:22, height:22, borderRadius:4, border:'1px solid #555', background:'transparent', color:'inherit', cursor:'pointer', fontWeight:700, fontSize:12, lineHeight:'18px', padding:0 }}
+                      style={{ width:22, height:22, borderRadius:4, border:'1px solid var(--line)', background:'transparent', color:'inherit', cursor:'pointer', fontWeight:700, fontSize:12, lineHeight:'18px', padding:0 }}
                       onClick={()=> setExpanded(prev=> ({...prev, [pid]: !prev[pid]}))}
                       aria-label="toggle details"
                     >{open ? '−' : '+'}</button>
@@ -442,7 +442,7 @@ function Table({
                 {open && (
                   <tr>
                     <td style={td} colSpan={17}>
-                      <pre style={{ margin:0, whiteSpace:'pre-wrap', background:'rgba(255,255,255,0.03)', border:'1px solid #333', borderRadius:8, padding:'8px 10px' }}>
+                      <pre style={{ margin:0, whiteSpace:'pre-wrap', background:'var(--panel2)', border:'1px solid var(--line)', borderRadius:8, padding:'8px 10px' }}>
                         {renderHumanBlock(perm)}
                       </pre>
                     </td>
@@ -599,9 +599,9 @@ function Heatmap({ summary, perms }:{ summary: any[], perms: any[] }){
   }, [summary, perms, xKey, yKey, axisIndex])
 
   const cellStyle = (val: number|null) => {
-    if (val==null || !Number.isFinite(val)) return { background:'#eee', color:'#111', padding:'4px 6px' as const }
+    if (val==null || !Number.isFinite(val)) return { background:'var(--panel2)', color:'var(--fg)', padding:'4px 6px' as const }
     const pos = val>0
-    return { background: pos ? '#d6f5d6' : '#f8d6d6', color:'#111', padding:'4px 6px' as const }
+    return { background: pos ? 'color-mix(in oklab, var(--ok) 30%, var(--panel))' : 'color-mix(in oklab, var(--err) 30%, var(--panel))', color:'var(--fg)', padding:'4px 6px' as const }
   }
 
   const noCells = xs.length===0 || ys.length===0
@@ -625,7 +625,7 @@ function Heatmap({ summary, perms }:{ summary: any[], perms: any[] }){
       </div>
 
       {noCells ? (
-        <div style={{padding:'8px 10px', border:'1px dashed #999', borderRadius:8, fontSize:12, background:'rgba(0,0,0,0.03)'}}>
+        <div style={{padding:'8px 10px', border:'1px dashed var(--line)', borderRadius:8, fontSize:12, background:'var(--panel2)'}}>
           No heatmap cells to display for <b>{xLabel}</b> vs <b>{yLabel}</b>.
         </div>
       ) : (
@@ -683,10 +683,10 @@ function Th({ label, k, sortKey, sortDir, onSort }:{ label:string, k: SortKey, s
   return <th style={th}><button onClick={()=>onSort(k)} style={thBtn}>{label}{' '}{active?(sortDir==='asc'?'▲':'▼'):'↕'}</button></th>
 }
 
-const th: React.CSSProperties = { textAlign:'left', borderBottom:'1px solid #ddd', padding:'8px 6px' }
-const td: React.CSSProperties = { borderBottom:'1px solid #eee', padding:'8px 6px', verticalAlign:'top' }
-const btn: React.CSSProperties = { display:'inline-block', padding:'6px 10px', border:'1px solid #0d6efd', color:'#0d6efd', borderRadius:6, textDecoration:'none' }
-const btnPrimary: React.CSSProperties = { ...btn, background:'#0d6efd', color:'#fff' }
+const th: React.CSSProperties = { textAlign:'left', borderBottom:'1px solid var(--line)', padding:'8px 6px' }
+const td: React.CSSProperties = { borderBottom:'1px solid var(--line)', padding:'8px 6px', verticalAlign:'top' }
+const btn: React.CSSProperties = { display:'inline-block', padding:'6px 10px', border:'1px solid var(--link)', color:'var(--link)', borderRadius:6, textDecoration:'none' }
+const btnPrimary: React.CSSProperties = { ...btn, background:'var(--link)', color:'#fff' }
 
 /** Text glyph buttons — guaranteed visible across hostile CSS */
 const glyphBtn: React.CSSProperties = {
@@ -695,7 +695,7 @@ const glyphBtn: React.CSSProperties = {
   display:'inline-flex',
   alignItems:'center',
   justifyContent:'center',
-  border:'1px solid #777',
+  border:'1px solid var(--line)',
   borderRadius:6,
   background:'transparent',
   cursor:'pointer',
@@ -717,5 +717,5 @@ const thBtn: React.CSSProperties = {
   background:'transparent',
   font:'inherit',
   cursor:'pointer',
-  color:'#0d6efd',
+  color:'var(--link)',
 }

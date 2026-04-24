@@ -264,7 +264,7 @@ export default function Runs() {
           value={filter}
           onChange={e=>setFilter(e.target.value)}
           placeholder="Filter by Run ID or Test Name…"
-          style={{padding:'6px 8px', border:'1px solid #ccc', borderRadius:6, minWidth:260}}
+          style={{padding:'6px 8px', border:'1px solid var(--line)', borderRadius:6, minWidth:260}}
         />
         {loading && <span>Loading…</span>}
       </div>
@@ -528,8 +528,8 @@ function Th(props: {label: string, sortKey: SortKey, sortKeyState: SortKey, sort
   );
 }
 
-const th: React.CSSProperties = { textAlign:'left', borderBottom:'1px solid #ddd', padding:'8px 6px', whiteSpace:'nowrap' };
-const td: React.CSSProperties = { borderBottom:'1px solid #eee', padding:'8px 6px', verticalAlign:'top' };
+const th: React.CSSProperties = { textAlign:'left', borderBottom:'1px solid var(--line)', padding:'8px 6px', whiteSpace:'nowrap' };
+const td: React.CSSProperties = { borderBottom:'1px solid var(--line)', padding:'8px 6px', verticalAlign:'top' };
 const tdNowrap: React.CSSProperties = { ...td, whiteSpace:'nowrap' };
 const tdEllipsis: React.CSSProperties = { ...td, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', maxWidth:0 };
 
@@ -540,14 +540,14 @@ const glyphBtn: React.CSSProperties = {
   display:'inline-flex',
   alignItems:'center',
   justifyContent:'center',
-  border:'1px solid #777',
+  border:'1px solid var(--line)',
   borderRadius:6,
   background:'transparent',
   cursor:'pointer',
   fontSize:14,
   lineHeight:1,
   padding:0,
-  color:'#222',
+  color:'var(--fg)',
 };
 
 const thBtn: React.CSSProperties = {
@@ -555,7 +555,7 @@ const thBtn: React.CSSProperties = {
   border:'none',
   padding:0,
   margin:0,
-  color:'#333',
+  color:'var(--fg)',
   cursor:'pointer',
   fontWeight:600
 };

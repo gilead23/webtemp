@@ -41,7 +41,7 @@ export default function RunAdvancedDrawer({
   const feasible = sessionsAvail >= required
 
   return (
-    <div className="card stack" style={{borderColor:'#334155'}}>
+    <div className="card stack" style={{borderColor:'var(--line)'}}>
       <div className="row" style={{justifyContent:'space-between', alignItems:'center'}}>
         <h3 style={{margin:0}}>Advanced</h3>
         <button className="button ghost" onClick={()=>setOpen(false)}>Close</button>
@@ -97,7 +97,7 @@ Example:
         <div className="row" style={{gap:12, flexWrap:'wrap'}}>
           <span className="badge">available sessions: {sessionsAvail}</span>
           <span className="badge">required: {required}</span>
-          <span className="badge" style={{background: feasible ? '#164e3f' : '#5a1f1f'}}>
+          <span className="badge" style={{background: feasible ? 'color-mix(in oklab, var(--ok) 22%, transparent)' : 'color-mix(in oklab, var(--err) 22%, transparent)'}}>
             {feasible ? 'feasible' : 'not feasible'}
           </span>
         </div>

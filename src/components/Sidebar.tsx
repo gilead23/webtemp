@@ -5,8 +5,8 @@ import { listActiveStrategies, ActiveStrategySummary } from '../services/activeC
 
 type SectionKey = 'runs' | 'active' | 'studies'
 
-const COLLAPSED_W = 48
-const EXPANDED_W = 220
+const COLLAPSED_W = 52
+const EXPANDED_W = 232
 
 export default function Sidebar() {
   const location = useLocation()
@@ -273,7 +273,7 @@ const sidebarBase: React.CSSProperties = {
   flexDirection: 'column',
   background: 'var(--panel)',
   borderRight: '1px solid var(--line)',
-  padding: '8px 0',
+  padding: '10px 0 12px',
   overflowY: 'auto',
   overflowX: 'hidden',
   fontSize: 13,
@@ -281,61 +281,89 @@ const sidebarBase: React.CSSProperties = {
 }
 
 const collapseBtn: React.CSSProperties = {
-  background: 'none',
+  background: 'var(--panel2)',
   border: '1px solid var(--line)',
-  borderRadius: 6,
+  borderRadius: 8,
   color: 'var(--muted)',
   cursor: 'pointer',
-  width: 28,
-  height: 28,
+  width: 30,
+  height: 30,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: 14,
-  margin: '2px auto',
+  fontSize: 13,
+  margin: '2px auto 6px',
+  transition: 'background 120ms ease, color 120ms ease, border-color 120ms ease',
 }
 
 const sectionHeaderStyle: React.CSSProperties = {
-  display: 'flex', alignItems: 'center', gap: 4,
-  padding: '6px 10px', borderRadius: 0,
+  display: 'flex', alignItems: 'center', gap: 6,
+  padding: '7px 12px',
+  margin: '4px 6px 2px',
+  borderRadius: 8,
+  transition: 'background 120ms ease',
 }
 
 const chevronBtnStyle: React.CSSProperties = {
   background: 'none', border: 'none', color: 'var(--muted)',
   cursor: 'pointer', padding: '2px 4px', lineHeight: 1,
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  width: 16, height: 16, flexShrink: 0,
 }
 
 const sectionLabelStyle: React.CSSProperties = {
-  fontWeight: 600, fontSize: 13, textDecoration: 'none', flex: 1,
+  fontWeight: 600, fontSize: 11.5, textDecoration: 'none',
+  flex: 1, letterSpacing: '0.06em',
+  textTransform: 'uppercase',
 }
 
 const countBadgeStyle: React.CSSProperties = {
-  fontSize: 10, color: 'var(--muted)',
-  background: 'var(--panel2)', borderRadius: 8, padding: '1px 6px',
+  fontSize: 10.5, color: 'var(--muted)',
+  background: 'var(--panel2)',
+  border: '1px solid var(--line)',
+  borderRadius: 999,
+  padding: '1px 7px',
+  fontWeight: 500,
+  minWidth: 20,
+  textAlign: 'center',
 }
 
-const treeStyle: React.CSSProperties = { paddingLeft: 8, paddingBottom: 4 }
+const treeStyle: React.CSSProperties = {
+  padding: '2px 6px 6px',
+  margin: '0 8px 4px 18px',
+  borderLeft: '1px solid var(--line)',
+}
 
-const treeItemStyle: React.CSSProperties = { padding: '2px 12px 2px 20px' }
+const treeItemStyle: React.CSSProperties = { padding: '2px 6px 2px 8px' }
 
 const subItemStyle: React.CSSProperties = { padding: '1px 0' }
 
 const subLinkStyle: React.CSSProperties = {
-  fontSize: 11, textDecoration: 'none', display: 'block',
-  padding: '1px 4px', borderRadius: 4,
+  fontSize: 11.5, textDecoration: 'none', display: 'block',
+  padding: '2px 6px', borderRadius: 4,
+  color: 'var(--muted)',
 }
 
 const miniChevronStyle: React.CSSProperties = {
   background: 'none', border: 'none', color: 'var(--muted)',
   cursor: 'pointer', padding: '0 2px', lineHeight: 1, flexShrink: 0,
+  display: 'flex', alignItems: 'center', justifyContent: 'center',
+  width: 14, height: 14,
 }
 
 const treeLinkStyle: React.CSSProperties = {
-  fontSize: 12, textDecoration: 'none', display: 'flex', alignItems: 'center',
+  fontSize: 12.5, textDecoration: 'none', display: 'flex', alignItems: 'center',
   whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+  padding: '3px 6px', borderRadius: 6,
 }
 
 const navLinkStyle: React.CSSProperties = {
-  display: 'block', padding: '8px 14px',
-  fontWeight: 500, fontSize: 13, textDecoration: 'none',
+  display: 'block',
+  padding: '7px 14px 7px 12px',
+  margin: '2px 6px',
+  fontWeight: 500,
+  fontSize: 13,
+  textDecoration: 'none',
+  borderRadius: 8,
+  transition: 'background 120ms ease, color 120ms ease',
 }

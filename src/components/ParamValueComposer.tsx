@@ -229,9 +229,9 @@ export default function ParamValueComposer({
       <div className="row" style={{gap: (dense ? 3 : 8), alignItems:'center', flexWrap:'wrap', ...(disabledStyle||{})}}>
         <span className="badge" style={badgeBaseStyle}>preview count: {expanded.length}</span>
         {valid ? (
-          <span className="badge" style={{ ...(badgeBaseStyle || {}), background:'#164e3f'}}>valid</span>
+          <span className="badge" style={{ ...(badgeBaseStyle || {}), background:'color-mix(in oklab, var(--ok) 22%, transparent)'}}>valid</span>
         ) : (
-          <span className="badge" style={{ ...(badgeBaseStyle || {}), background:'#5a1f1f'}}>invalid: {error}</span>
+          <span className="badge" style={{ ...(badgeBaseStyle || {}), background:'color-mix(in oklab, var(--err) 22%, transparent)'}}>invalid: {error}</span>
         )}
         {!dense && expanded.length > 0 && (
           <div className="row" style={{gap:4, flexWrap:'wrap'}}>

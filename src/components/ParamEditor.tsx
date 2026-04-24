@@ -45,7 +45,7 @@ function DefaultParamEditor({ pname, meta = {}, initial, initialApplied = false,
   const showClear = applied
 
   const greyStyle: React.CSSProperties = applied
-    ? { opacity: 0.45, background: '#0f172a', borderRadius: 8, padding: dense ? 4 : 8 }
+    ? { opacity: 0.45, background: 'var(--panel)', borderRadius: 8, padding: dense ? 4 : 8 }
     : {}
 
   const cardStyle: React.CSSProperties = dense
@@ -270,7 +270,7 @@ export function ParamEditor({ def, value, onChange }: FlagParamEditorProps) {
             )
           })}
           {selected.size === 0 && (
-            <div style={{ fontSize: '10px', color: '#999' }}>
+            <div style={{ fontSize: '10px', color: 'var(--muted)' }}>
               No values selected. This parameter will be ignored.
             </div>
           )}
@@ -287,7 +287,7 @@ export function ParamEditor({ def, value, onChange }: FlagParamEditorProps) {
           defaultValue={current.join(', ')}
           onBlur={handleValuesTextBlur}
         />
-        <div style={{ fontSize: '10px', color: '#999', marginTop: 2 }}>
+        <div style={{ fontSize: '10px', color: 'var(--muted)', marginTop: 2 }}>
           Numbers for numeric params, "true/false" for booleans.
         </div>
       </div>
@@ -299,7 +299,7 @@ export function ParamEditor({ def, value, onChange }: FlagParamEditorProps) {
     return (
       <div style={{ marginTop: 4, display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'flex-end' }}>
         <div style={{ minWidth: 80, display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: '10px', color: '#999' }}>Start</span>
+          <span style={{ fontSize: '10px', color: 'var(--muted)' }}>Start</span>
           <input
             type="number"
             value={r.start}
@@ -308,7 +308,7 @@ export function ParamEditor({ def, value, onChange }: FlagParamEditorProps) {
           />
         </div>
         <div style={{ minWidth: 80, display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: '10px', color: '#999' }}>Stop</span>
+          <span style={{ fontSize: '10px', color: 'var(--muted)' }}>Stop</span>
           <input
             type="number"
             value={r.stop}
@@ -317,7 +317,7 @@ export function ParamEditor({ def, value, onChange }: FlagParamEditorProps) {
           />
         </div>
         <div style={{ minWidth: 80, display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: '10px', color: '#999' }}>Step</span>
+          <span style={{ fontSize: '10px', color: 'var(--muted)' }}>Step</span>
           <input
             type="number"
             value={r.step}
@@ -342,7 +342,7 @@ export function ParamEditor({ def, value, onChange }: FlagParamEditorProps) {
     return (
       <div style={{ marginTop: 4, display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'flex-end' }}>
         <div style={{ minWidth: 80, display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: '10px', color: '#999' }}>Start</span>
+          <span style={{ fontSize: '10px', color: 'var(--muted)' }}>Start</span>
           <input
             type="number"
             value={r.start}
@@ -351,7 +351,7 @@ export function ParamEditor({ def, value, onChange }: FlagParamEditorProps) {
           />
         </div>
         <div style={{ minWidth: 80, display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: '10px', color: '#999' }}>Stop</span>
+          <span style={{ fontSize: '10px', color: 'var(--muted)' }}>Stop</span>
           <input
             type="number"
             value={r.stop}
@@ -360,7 +360,7 @@ export function ParamEditor({ def, value, onChange }: FlagParamEditorProps) {
           />
         </div>
         <div style={{ minWidth: 80, display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: '10px', color: '#999' }}>Points</span>
+          <span style={{ fontSize: '10px', color: 'var(--muted)' }}>Points</span>
           <input
             type="number"
             value={r.num}
@@ -369,7 +369,7 @@ export function ParamEditor({ def, value, onChange }: FlagParamEditorProps) {
           />
         </div>
         <div style={{ minWidth: 80, display: 'flex', flexDirection: 'column', gap: 2 }}>
-          <span style={{ fontSize: '10px', color: '#999' }}>Tick (opt)</span>
+          <span style={{ fontSize: '10px', color: 'var(--muted)' }}>Tick (opt)</span>
           <input
             type="number"
             value={r.roundToTick ?? ''}
@@ -392,7 +392,7 @@ export function ParamEditor({ def, value, onChange }: FlagParamEditorProps) {
   return (
     <div style={{ marginTop: 4, display: 'flex', flexDirection: 'column', gap: 4 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '11px' }}>
-        <span style={{ color: '#999' }}>Mode:</span>
+        <span style={{ color: 'var(--muted)' }}>Mode:</span>
         <select
           value={currentMode}
           onChange={handleModeChange}
@@ -412,7 +412,7 @@ export function ParamEditor({ def, value, onChange }: FlagParamEditorProps) {
       {currentMode === 'range' && renderRangeEditor()}
       {currentMode === 'log_range' && renderLogRangeEditor()}
       {currentMode === 'as_is' && (
-        <div style={{ fontSize: '10px', color: '#999' }}>
+        <div style={{ fontSize: '10px', color: 'var(--muted)' }}>
           Use backend default semantics for this parameter.
         </div>
       )}

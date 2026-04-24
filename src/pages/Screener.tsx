@@ -473,7 +473,7 @@ export default function Screener() {
 
       {/* ── Error ── */}
       {error && (
-        <div style={{ background: '#5a1f1f', padding: '8px 12px', borderRadius: 8, color: 'var(--err)' }}>
+        <div style={{ background: 'color-mix(in oklab, var(--err) 22%, transparent)', padding: '8px 12px', borderRadius: 8, color: 'var(--err)' }}>
           {error}
         </div>
       )}
@@ -484,7 +484,7 @@ export default function Screener() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
               <h2 style={{ margin: 0, fontSize: 14 }}>Results</h2>
-              <span className="badge" style={{ background: result.matches.length > 0 ? '#164e3f' : 'var(--panel2)' }}>
+              <span className="badge" style={{ background: result.matches.length > 0 ? 'color-mix(in oklab, var(--ok) 22%, transparent)' : 'var(--panel2)' }}>
                 {result.matches.length} match{result.matches.length !== 1 ? 'es' : ''}
               </span>
               <span className="badge">of {result.total_tickers} tickers</span>

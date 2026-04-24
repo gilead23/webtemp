@@ -60,39 +60,39 @@ function todayYmd(): number {
 // ---------------------------------------------------------------------------
 
 const sectionStyle: React.CSSProperties = {
-  marginBottom: 24, border: '1px solid #ddd', borderRadius: 8, overflow: 'hidden',
+  marginBottom: 24, border: '1px solid var(--line)', borderRadius: 8, overflow: 'hidden',
 }
 const sectionHeaderStyle: React.CSSProperties = {
-  padding: '10px 16px', fontWeight: 700, fontSize: 14, borderBottom: '1px solid #ddd',
+  padding: '10px 16px', fontWeight: 700, fontSize: 14, borderBottom: '1px solid var(--line)',
 }
 const tableStyle: React.CSSProperties = {
   width: '100%', borderCollapse: 'collapse', fontSize: 13,
 }
 const thStyle: React.CSSProperties = {
-  textAlign: 'left', padding: '8px 12px', borderBottom: '1px solid #eee',
-  fontWeight: 600, color: '#555', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.5px',
+  textAlign: 'left', padding: '8px 12px', borderBottom: '1px solid var(--line)',
+  fontWeight: 600, color: 'var(--muted)', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.5px',
 }
-const tdStyle: React.CSSProperties = { padding: '8px 12px', borderBottom: '1px solid #f0f0f0' }
+const tdStyle: React.CSSProperties = { padding: '8px 12px', borderBottom: '1px solid var(--line)' }
 
 const btnBase: React.CSSProperties = {
   padding: '8px 20px', border: 'none', borderRadius: 6, cursor: 'pointer', fontWeight: 600, fontSize: 14,
 }
-const buildBtnStyle: React.CSSProperties = { ...btnBase, background: '#3d5a80', color: '#fff' }
-const executeBtnStyle: React.CSSProperties = { ...btnBase, background: '#2a9d8f', color: '#fff', fontSize: 16, padding: '12px 32px' }
-const disabledBtn: React.CSSProperties = { ...executeBtnStyle, background: '#aaa', cursor: 'not-allowed' }
-const resetBtnStyle: React.CSSProperties = { ...btnBase, background: '#eee', color: '#333' }
+const buildBtnStyle: React.CSSProperties = { ...btnBase, background: 'var(--link)', color: '#fff' }
+const executeBtnStyle: React.CSSProperties = { ...btnBase, background: 'var(--ok)', color: '#fff', fontSize: 16, padding: '12px 32px' }
+const disabledBtn: React.CSSProperties = { ...executeBtnStyle, background: 'var(--panel2)', cursor: 'not-allowed' }
+const resetBtnStyle: React.CSSProperties = { ...btnBase, background: 'var(--panel2)', color: 'var(--fg)', border: '1px solid var(--line)' }
 
 const alertBox = (bg: string, border: string, color: string): React.CSSProperties => ({
   background: bg, border: `1px solid ${border}`, borderRadius: 6,
   padding: '8px 14px', marginBottom: 8, fontSize: 13, color,
 })
-const warnBox = alertBox('#fff3cd', '#ffc107', '#664d03')
-const errorBox = alertBox('#f8d7da', '#f5c2c7', '#842029')
-const successBox = alertBox('#d1e7dd', '#badbcc', '#0f5132')
+const warnBox = alertBox('color-mix(in oklab, var(--warn) 16%, transparent)', 'var(--warn)', 'var(--fg)')
+const errorBox = alertBox('color-mix(in oklab, var(--err) 16%, transparent)', 'var(--err)', 'var(--fg)')
+const successBox = alertBox('color-mix(in oklab, var(--ok) 16%, transparent)', 'var(--ok)', 'var(--fg)')
 
 const categoryColors: Record<string, string> = {
-  cleanup_sells: '#dc3545', stop_orders: '#fd7e14', market_exits: '#6f42c1',
-  new_entries: '#198754', informational: '#6c757d',
+  cleanup_sells: 'var(--err)', stop_orders: 'var(--warn)', market_exits: 'oklch(0.7 0.15 300)',
+  new_entries: 'var(--ok)', informational: 'var(--muted)',
 }
 const categoryLabels: Record<string, string> = {
   cleanup_sells: 'Cleanup Sells (Orphaned Shares)', stop_orders: 'Stop Orders',
@@ -125,7 +125,7 @@ function IntentTable({ rows, color }: { rows: IntentRow[]; color: string }) {
             <td style={{ ...tdStyle, fontWeight: 600 }}>{r.ticker}</td>
             <td style={tdStyle}>{r.active_id.replace('active_', '').slice(0, 8)}</td>
             <td style={{ ...tdStyle, fontFamily: 'monospace', fontSize: 12 }}>{r.trade_id.slice(0, 12)}</td>
-            <td style={{ ...tdStyle, color: r.side === 'BUY' ? '#198754' : '#dc3545' }}>{r.side}</td>
+            <td style={{ ...tdStyle, color: r.side === 'BUY' ? 'var(--ok)' : 'var(--err)' }}>{r.side}</td>
             <td style={{ ...tdStyle, fontWeight: 600 }}>{r.quantity || '-'}</td>
             <td style={tdStyle}>{r.stop_price != null ? `$${r.stop_price.toFixed(2)}` : '-'}</td>
             <td style={{ ...tdStyle, color }}>{r.intent_type.replace('_', ' ')}</td>
@@ -217,7 +217,7 @@ export default function Blotter() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ margin: 0, fontSize: 24 }}>Morning Blotter</h1>
-          <span style={{ color: '#888', fontSize: 14 }}>{formatYmd(today)}</span>
+          <span style={{ color: 'var(--muted)', fontSize: 14 }}>{formatYmd(today)}</span>
         </div>
         <button onClick={handleReset} style={resetBtnStyle}>Reset</button>
       </div>
@@ -228,7 +228,7 @@ export default function Blotter() {
       {!blotter && !loading && (
         <button onClick={handleBuild} style={buildBtnStyle}>Build Blotter</button>
       )}
-      {loading && !blotter && <span style={{ color: '#888' }}>Running engine, reconciling, building blotter...</span>}
+      {loading && !blotter && <span style={{ color: 'var(--muted)' }}>Running engine, reconciling, building blotter...</span>}
 
       {/* Blotter results */}
       {blotter && (
@@ -258,7 +258,7 @@ export default function Blotter() {
                 }}>
                   {categoryLabels[key] || key} ({rows.length})
                 </div>
-                <IntentTable rows={rows} color={categoryColors[key] || '#333'} />
+                <IntentTable rows={rows} color={categoryColors[key] || 'var(--muted)'} />
               </div>
             )
           })}
@@ -284,7 +284,7 @@ export default function Blotter() {
           <div style={successBox}>Executed: {execResult.placed} orders placed.</div>
           {execResult.orders?.length > 0 && (
             <div style={sectionStyle}>
-              <div style={{ ...sectionHeaderStyle, background: '#d1e7dd', color: '#0f5132' }}>
+              <div style={{ ...sectionHeaderStyle, background: 'color-mix(in oklab, var(--ok) 16%, transparent)', color: 'var(--fg)' }}>
                 Placed Orders
               </div>
               <table style={tableStyle}>

@@ -36,14 +36,14 @@ const glyphBtn: React.CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  border: '1px solid #777',
+  border: '1px solid var(--line)',
   borderRadius: 6,
   background: 'transparent',
   cursor: 'pointer',
   fontSize: 14,
   lineHeight: 1,
   padding: 0,
-  color: '#222',
+  color: 'var(--fg)',
 }
 
 function ThSort(props: { label: string; k: string; activeK: string; dir: SortDir; onSort: (k: any) => void }) {

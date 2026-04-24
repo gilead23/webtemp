@@ -13,6 +13,7 @@ import Studies from './pages/Studies'
 import StudyDetail from './pages/StudyDetail'
 
 import Screener from './pages/Screener'
+import Breadcrumbs from './components/ui/Breadcrumbs'
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
       <Sidebar />
       <main style={{ flex: 1, minWidth: 0, padding: 20, boxSizing: 'border-box', width: 0, overflowX: 'auto' }}>
         <div style={{ maxWidth: 1100, minWidth: 0 }}>
+        <Breadcrumbs />
         <Routes>
           <Route path="/runs" element={<Runs />} />
           <Route path="/new" element={<NewSweep />} />

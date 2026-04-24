@@ -47,8 +47,8 @@ export default function CalendarPopover({
   return (
     <div style={{
       position:'absolute', top:'110%', left:0, zIndex:100,
-      background:'#0d1117', color:'#e5e7eb',
-      border:'1px solid #222832', borderRadius:8,
+      background:'var(--panel)', color:'var(--fg)',
+      border:'1px solid var(--line)', borderRadius:8,
       padding:10, width:260, boxShadow:'0 10px 28px rgba(0,0,0,.4)'
     }}>
       <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:8}}>
@@ -56,7 +56,7 @@ export default function CalendarPopover({
         <div style={{fontWeight:600}}>{m} {y}</div>
         <button className="button ghost" onClick={nextMonth}>&gt;</button>
       </div>
-      <div style={{display:'grid', gridTemplateColumns:'repeat(7,1fr)', gap:4, fontSize:12, color:'#9aa3af', marginBottom:4}}>
+      <div style={{display:'grid', gridTemplateColumns:'repeat(7,1fr)', gap:4, fontSize:12, color:'var(--muted)', marginBottom:4}}>
         {['Su','Mo','Tu','We','Th','Fr','Sa'].map(d => <div key={d} style={{textAlign:'center'}}>{d}</div>)}
       </div>
       <div style={{display:'grid', gridTemplateColumns:'repeat(7,1fr)', gap:4}}>
