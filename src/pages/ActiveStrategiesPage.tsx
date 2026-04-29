@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import Modal from '../components/ui/Modal'
 import CalendarPopover from '../components/ui/CalendarPopover'
+import { IconButton, IconButtonGroup, IconLink } from '../components/ui/IconButton'
+import { ExternalLink, History, Wand2, Play, Pause, Trash2, Calendar } from 'lucide-react'
 import {
   ActiveStrategySummary,
   listActiveStrategies,
@@ -231,46 +233,41 @@ export default function ActiveStrategiesPage() {
                 <td>{fmtYmdInt(r.last_stop_gen_date)}</td>
                 <td>{fmtYmdInt(r.last_successful_run_date)}</td>
                 <td style={actionsTdStyle}>
-                  <div style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>
-                    <Link
+                  <IconButtonGroup gap={6}>
+                    <IconLink
+                      as={Link}
                       to={`/active/${encodeURIComponent(r.active_id)}`}
-                      style={glyphBtn}
-                      title="Open strategy"
-                      aria-label="open strategy"
+                      icon={<ExternalLink />}
+                      label="Open strategy"
                       onMouseDown={() => __ACT_log('open mousedown', { active_id: r.active_id })}
-                    >OP</Link>
-                    <Link
+                    />
+                    <IconLink
+                      as={Link}
                       to={`/active/${encodeURIComponent(r.active_id)}/history`}
-                      style={glyphBtn}
-                      title="History"
-                      aria-label="strategy history"
+                      icon={<History />}
+                      label="History"
                       onMouseDown={() => __ACT_log('history mousedown', { active_id: r.active_id })}
-                    >HI</Link>
-                    <button
-                      style={glyphBtn}
-                      title="Generate orders + stops for date range"
-                      aria-label="generate"
+                    />
+                    <IconButton
+                      icon={<Wand2 />}
+                      label="Generate orders + stops for date range"
                       disabled={busyId === r.active_id}
                       onClick={() => openGenerate(r.active_id)}
-                      type="button"
-                    >GN</button>
-                    <button
-                      style={glyphBtn}
-                      title={r.is_active ? 'Deactivate' : 'Activate'}
-                      aria-label={r.is_active ? 'deactivate' : 'activate'}
+                    />
+                    <IconButton
+                      icon={r.is_active ? <Pause /> : <Play />}
+                      label={r.is_active ? 'Deactivate' : 'Activate'}
                       disabled={busyId === r.active_id}
                       onClick={() => onToggle(r.active_id, !r.is_active)}
-                      type="button"
-                    >{r.is_active ? '||' : '▶'}</button>
-                    <button
-                      style={glyphBtn}
-                      title="Delete"
-                      aria-label="delete"
+                    />
+                    <IconButton
+                      icon={<Trash2 />}
+                      label="Delete"
+                      variant="danger"
                       disabled={busyId === r.active_id}
                       onClick={() => onDelete(r.active_id)}
-                      type="button"
-                    >✖</button>
-                  </div>
+                    />
+                  </IconButtonGroup>
                 </td>
               </tr>
             ))}
@@ -306,7 +303,11 @@ export default function ActiveStrategiesPage() {
                         onChange={e => setGenStartDate(e.target.value)}
                         onFocus={() => setShowCalStart(true)}
                       />
-                      <button className="button" onClick={() => setShowCalStart(s => !s)} type="button">📅</button>
+                      <IconButton
+                        icon={<Calendar />}
+                        label="Pick start date"
+                        onClick={() => setShowCalStart(s => !s)}
+                      />
                     </div>
                     {showCalStart && (
                       <CalendarPopover
@@ -329,7 +330,11 @@ export default function ActiveStrategiesPage() {
                         onChange={e => setGenEndDate(e.target.value)}
                         onFocus={() => setShowCalEnd(true)}
                       />
-                      <button className="button" onClick={() => setShowCalEnd(s => !s)} type="button">📅</button>
+                      <IconButton
+                        icon={<Calendar />}
+                        label="Pick end date"
+                        onClick={() => setShowCalEnd(s => !s)}
+                      />
                     </div>
                     {showCalEnd && (
                       <CalendarPopover
@@ -406,21 +411,4 @@ export default function ActiveStrategiesPage() {
   )
 }
 
-/** Text glyph buttons — copied from Results.tsx to guarantee visibility under hostile CSS */
-const glyphBtn: React.CSSProperties = {
-  width: 28,
-  height: 28,
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  border: '1px solid var(--line)',
-  borderRadius: 6,
-  background: 'transparent',
-  cursor: 'pointer',
-  fontSize: 13,
-  fontWeight: 700,
-  lineHeight: 1,
-  padding: 0,
-  color: 'inherit',
-  textDecoration: 'none',
-}
+/** (glyphBtn removed — replaced by IconButton/IconLink) */

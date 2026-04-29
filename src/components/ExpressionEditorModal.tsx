@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { X } from 'lucide-react';
 import { ExpressionBuilder } from './ExpressionBuilder';
 import { expandSweepMarkers, hasSweepMarkers, countSweepPermutations } from '../utils/sweepMarkers';
 import type { ExpressionFlagConfig } from '../types/expression';
@@ -199,7 +200,7 @@ export default function ExpressionEditorModal(props: ExpressionEditorModalProps)
             <h3 style={{ margin: 0, fontSize: 15 }}>{headerText}</h3>
             {loading && <span className="hint">loading registry…</span>}
           </div>
-          <button className="button ghost" onClick={onClose}>✕</button>
+          <button className="button ghost" onClick={onClose} aria-label="Close" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: 4, minWidth: 28, minHeight: 28 }}><X size={16} aria-hidden /></button>
         </div>
 
         {/* Label / name input */}

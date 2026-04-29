@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { artifactClient, Study } from '../services/artifactClient'
 import Modal from '../components/ui/Modal'
+import { IconButton } from '../components/ui/IconButton'
+import { Trash2 } from 'lucide-react'
 
 export default function Studies() {
   const [studies, setStudies] = useState<Study[]>([])
@@ -103,10 +105,13 @@ export default function Studies() {
                 <td style={td}>{s.run_count ?? 0}</td>
                 <td style={td}>{fmtDate(s.created_at)}</td>
                 <td style={td}>
-                  <button
+                  <IconButton
+                    icon={<Trash2 />}
+                    label="Delete study"
+                    size="sm"
+                    variant="danger"
                     onClick={e => { e.stopPropagation(); setDeleteTarget(s) }}
-                    style={glyphBtn} title="Delete study"
-                  >🗑️</button>
+                  />
                 </td>
               </tr>
             ))}
@@ -179,8 +184,3 @@ function fmtDate(s: string | null | undefined) {
 
 const th: React.CSSProperties = { textAlign: 'left', borderBottom: '1px solid var(--line)', padding: '8px 6px', whiteSpace: 'nowrap' }
 const td: React.CSSProperties = { borderBottom: '1px solid var(--line)', padding: '8px 6px', verticalAlign: 'top' }
-const glyphBtn: React.CSSProperties = {
-  width: 24, height: 24, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-  border: '1px solid var(--line)', borderRadius: 6, background: 'transparent', cursor: 'pointer',
-  fontSize: 14, lineHeight: 1, padding: 0, color: 'var(--fg)',
-}

@@ -2,6 +2,9 @@ import { Fragment, useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { fetchTradeHistory, fetchWeeklyHistory, fetchTradeStopHistory, type TradeRow, type WeeklyPoint } from '../services/activeClient'
 import TradeDetailPanel from '../components/TradeDetailPanel'
+import { IconButton, IconButtonGroup } from '../components/ui/IconButton'
+import { SortIndicator } from '../components/ui/SortIndicator'
+import { Shield, BarChart3, X } from 'lucide-react'
 
 const __ASD_log = (...args: any[]) => console.info('[ActiveStrategyDetailPage]', ...args)
 
@@ -68,7 +71,8 @@ function Th(props: { label: string, sortKey: TradeSortKey, sortKeyState: TradeSo
   return (
     <th style={stickyTh}>
       <button onClick={() => onSort(sortKey)} style={thBtn}>
-        {label}{' '}{active ? (sortDir === 'asc' ? '▲' : '▼') : '↕'}
+        {label}
+        <SortIndicator active={active} direction={sortDir} />
       </button>
     </th>
   )
@@ -82,22 +86,6 @@ const thBtn: React.CSSProperties = {
   color: 'inherit',
   cursor: 'pointer',
   fontWeight: 600,
-}
-
-const glyphBtn: React.CSSProperties = {
-  width: 24,
-  height: 24,
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  border: '1px solid var(--line)',
-  borderRadius: 6,
-  background: 'transparent',
-  cursor: 'pointer',
-  fontSize: 14,
-  lineHeight: 1,
-  padding: 0,
-  color: 'var(--fg)',
 }
 
 export default function ActiveStrategyDetailPage() {
@@ -345,13 +333,20 @@ return (
       <td>{t.state}</td>
       <td>{pnl == null ? '' : fmtPct(pnl)}</td>
       <td>
-        <button style={glyphBtn} onClick={() => toggleStopHistory(t.trade_id)} title={expandedTradeId === t.trade_id ? 'Hide stops' : 'Stop history'} aria-label="stop history">
-          {expandedTradeId === t.trade_id ? '✕' : '⛨'}
-        </button>
-        {' '}
-        <button style={glyphBtn} onClick={() => setDataTradeId(dataTradeId === t.trade_id ? null : t.trade_id)} title={dataTradeId === t.trade_id ? 'Hide data' : 'Trade data'} aria-label="trade data">
-          {dataTradeId === t.trade_id ? '✕' : '📊'}
-        </button>
+        <IconButtonGroup>
+          <IconButton
+            icon={expandedTradeId === t.trade_id ? <X /> : <Shield />}
+            label={expandedTradeId === t.trade_id ? 'Hide stops' : 'Stop history'}
+            size="sm"
+            onClick={() => toggleStopHistory(t.trade_id)}
+          />
+          <IconButton
+            icon={dataTradeId === t.trade_id ? <X /> : <BarChart3 />}
+            label={dataTradeId === t.trade_id ? 'Hide data' : 'Trade data'}
+            size="sm"
+            onClick={() => setDataTradeId(dataTradeId === t.trade_id ? null : t.trade_id)}
+          />
+        </IconButtonGroup>
       </td>
     </tr>
     {expandedTradeId === t.trade_id && (

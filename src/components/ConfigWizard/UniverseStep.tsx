@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import Info from '../ui/Info'
 import CalendarPopover from '../ui/CalendarPopover'
+import { IconButton } from '../ui/IconButton'
+import { Chevron } from '../ui/Chevron'
+import { Calendar } from 'lucide-react'
 import type { InstrumentFilter } from '../../types/spec'
 
 function isYYYYMMDD(s:string){
@@ -87,8 +90,8 @@ export default function UniverseStep({
           onClick={() => setShowInstrumentFilter(s => !s)}
         >
           <span style={{ fontSize: 12, fontWeight: 600 }}>Instrument Types</span>
-          <span style={{ fontSize: 11, color: 'var(--muted)' }}>
-            {instrumentFilterSummary(instrumentFilter)}&nbsp;{showInstrumentFilter ? '▲' : '▼'}
+          <span style={{ fontSize: 11, color: 'var(--muted)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            {instrumentFilterSummary(instrumentFilter)}<Chevron open={showInstrumentFilter} />
           </span>
         </button>
 
@@ -129,7 +132,11 @@ export default function UniverseStep({
               onChange={e=>setStartDate(e.target.value)}
               onFocus={()=>setShowCalStart(true)}
             />
-            <button className="button" onClick={()=>setShowCalStart(s=>!s)}>📅</button>
+            <IconButton
+              icon={<Calendar />}
+              label="Pick start date"
+              onClick={() => setShowCalStart(s => !s)}
+            />
           </div>
           {showCalStart && (
             <CalendarPopover
@@ -152,7 +159,11 @@ export default function UniverseStep({
               onChange={e=>setEndDate(e.target.value)}
               onFocus={()=>setShowCalEnd(true)}
             />
-            <button className="button" onClick={()=>setShowCalEnd(s=>!s)}>📅</button>
+            <IconButton
+              icon={<Calendar />}
+              label="Pick end date"
+              onClick={() => setShowCalEnd(s => !s)}
+            />
           </div>
           {showCalEnd && (
             <CalendarPopover

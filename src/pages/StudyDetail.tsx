@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { artifactClient, StudyDetail, StudyRun, StudyBests } from '../services/artifactClient'
 import Modal from '../components/ui/Modal'
+import { IconButton, IconButtonGroup } from '../components/ui/IconButton'
+import { BarChart3, Plus, Undo2, Pencil } from 'lucide-react'
 
 export default function StudyDetailPage() {
   const { studyId } = useParams<{ studyId: string }>()
@@ -138,7 +140,9 @@ export default function StudyDetailPage() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <h1 style={{ margin: 0 }}>{study.name}</h1>
-              <button className="button ghost" onClick={() => setEditing(true)} title="Edit" style={{ fontSize: 12 }}>✏️ Edit</button>
+              <button className="button ghost" onClick={() => setEditing(true)} title="Edit" style={{ fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                <Pencil size={12} aria-hidden /> Edit
+              </button>
             </div>
             {study.description && <p style={{ opacity: 0.7, marginTop: 4, marginBottom: 0 }}>{study.description}</p>}
             <div style={{ fontSize: 11, opacity: 0.5, marginTop: 4 }}>
@@ -222,11 +226,26 @@ export default function StudyDetailPage() {
                   <td style={tdNowrap}>{fmtPct(r.best_per_day_return)}</td>
                   <td style={tdNowrap}>{fmtPct(r.best_return)}</td>
                   <td style={{ ...tdNowrap, textAlign: 'center', whiteSpace: 'nowrap' }}>
-                    <span style={{ display: 'inline-flex', gap: 4 }}>
-                      <button onClick={() => nav(`/results/${encodeURIComponent(r.id)}`)} style={glyphBtn} title="Open results">📊</button>
-                      <button onClick={() => newSweepFromStudyRun(r.id)} style={glyphBtn} title="New sweep from this run">➕</button>
-                      <button onClick={() => setRemoveTarget(r)} style={glyphBtn} title="Move back to Runs">↩️</button>
-                    </span>
+                    <IconButtonGroup>
+                      <IconButton
+                        icon={<BarChart3 />}
+                        label="Open results"
+                        size="sm"
+                        onClick={() => nav(`/results/${encodeURIComponent(r.id)}`)}
+                      />
+                      <IconButton
+                        icon={<Plus />}
+                        label="New sweep from this run"
+                        size="sm"
+                        onClick={() => newSweepFromStudyRun(r.id)}
+                      />
+                      <IconButton
+                        icon={<Undo2 />}
+                        label="Move back to Runs"
+                        size="sm"
+                        onClick={() => setRemoveTarget(r)}
+                      />
+                    </IconButtonGroup>
                   </td>
                 </tr>
               )
@@ -279,8 +298,3 @@ const th: React.CSSProperties = { textAlign: 'left', borderBottom: '1px solid va
 const td: React.CSSProperties = { borderBottom: '1px solid var(--line)', padding: '8px 6px', verticalAlign: 'top' }
 const tdNowrap: React.CSSProperties = { ...td, whiteSpace: 'nowrap' }
 const tdName: React.CSSProperties = { ...td, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 220 }
-const glyphBtn: React.CSSProperties = {
-  width: 24, height: 24, display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-  border: '1px solid var(--line)', borderRadius: 6, background: 'transparent', cursor: 'pointer',
-  fontSize: 14, lineHeight: 1, padding: 0, color: 'var(--fg)',
-}

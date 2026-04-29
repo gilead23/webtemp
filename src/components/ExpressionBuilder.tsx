@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
+import { ChevronRight } from 'lucide-react';
 import type { Expr, ExpressionValidationResult } from '../types/expression';
 import type {
   ExpressionRegistry,
@@ -1243,9 +1244,9 @@ const ExpressionBuilder: React.FC<ExpressionBuilderProps> = ({
   };
 
   const chevronStyle = (expanded: boolean): CSSProperties => ({
-    display: 'inline-block',
+    display: 'inline-flex',
+    alignItems: 'center',
     width: 10,
-    fontSize: 8,
     color: '#9ca3af',
     transition: 'transform 0.15s',
     transform: expanded ? 'rotate(90deg)' : 'rotate(0deg)',
@@ -1471,7 +1472,7 @@ const ExpressionBuilder: React.FC<ExpressionBuilderProps> = ({
             }}
             disabled={disabled}
           >
-            <span style={chevronStyle(isExpanded)}>▶</span>
+            <span style={chevronStyle(isExpanded)}><ChevronRight size={10} aria-hidden /></span>
             {node.label}
           </button>
           {isExpanded && node.children!.map((child) =>
@@ -1605,7 +1606,7 @@ const ExpressionBuilder: React.FC<ExpressionBuilderProps> = ({
                       style={sectionToggleStyle}
                       onClick={() => toggleFieldNode('section:fields')}
                     >
-                      <span style={chevronStyle(expandedFieldNodes.has('section:fields'))}>▶</span>
+                      <span style={chevronStyle(expandedFieldNodes.has('section:fields'))}><ChevronRight size={10} aria-hidden /></span>
                       Data Fields
                     </button>
                     {expandedFieldNodes.has('section:fields') && fieldTree.map((node) =>
@@ -1628,7 +1629,7 @@ const ExpressionBuilder: React.FC<ExpressionBuilderProps> = ({
                         }
                       }}
                     >
-                      <span style={chevronStyle(expandedFieldNodes.has('section:functions'))}>▶</span>
+                      <span style={chevronStyle(expandedFieldNodes.has('section:functions'))}><ChevronRight size={10} aria-hidden /></span>
                       Functions
                       <span style={{ color: '#6b7280', marginLeft: 'auto', fontSize: 9, fontWeight: 400 }}>
                         {functionItems.length}
@@ -1693,7 +1694,7 @@ const ExpressionBuilder: React.FC<ExpressionBuilderProps> = ({
                         }
                       }}
                     >
-                      <span style={chevronStyle(expandedFieldNodes.has('section:operators'))}>▶</span>
+                      <span style={chevronStyle(expandedFieldNodes.has('section:operators'))}><ChevronRight size={10} aria-hidden /></span>
                       Operators
                       <span style={{ color: '#6b7280', marginLeft: 'auto', fontSize: 9, fontWeight: 400 }}>
                         {operatorItems.length}
@@ -1758,7 +1759,7 @@ const ExpressionBuilder: React.FC<ExpressionBuilderProps> = ({
                         }
                       }}
                     >
-                      <span style={chevronStyle(expandedFieldNodes.has('section:flags'))}>▶</span>
+                      <span style={chevronStyle(expandedFieldNodes.has('section:flags'))}><ChevronRight size={10} aria-hidden /></span>
                       Flags
                       <span style={{ color: '#6b7280', marginLeft: 'auto', fontSize: 9, fontWeight: 400 }}>
                         {flagItems.length}

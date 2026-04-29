@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
+import { X } from 'lucide-react';
 import {
   FlagDefinition,
   ParamDefinition,
@@ -452,8 +453,9 @@ export const FlagParamModal: React.FC<FlagParamModalProps> = ({
             type="button"
             style={closeBtnStyle}
             onClick={onCancel}
+            aria-label="Close"
           >
-            ✕
+            <X size={16} aria-hidden />
           </button>
         </div>
 

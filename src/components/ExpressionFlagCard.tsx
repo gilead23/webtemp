@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
+import { X } from 'lucide-react';
 import type {
   ExpressionFlagConfig,
   ExpressionValidationResult,
@@ -466,8 +467,9 @@ const VisualBuilderPanel: React.FC<VisualBuilderPanelProps> = ({
               className="ml-1 inline-flex h-7 w-7 items-center justify-center rounded-full border border-slate-700 text-slate-400 hover:text-rose-300 hover:border-rose-400 hover:bg-rose-500/10 text-xs transition-colors"
               disabled={disabled}
               title="Remove row"
+              aria-label="Remove row"
             >
-              ✕
+              <X size={12} aria-hidden />
             </button>
           </div>
         ))}

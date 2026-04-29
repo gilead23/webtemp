@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { Check } from 'lucide-react'
 import UniverseStep from '../components/ConfigWizard/UniverseStep'
 import { SelectedStrategy } from '../components/StrategyPicker'
 import SelectedStrategies from '../components/SelectedStrategies'
@@ -352,7 +353,7 @@ export default function NewSweep(){
                 color: (i < step || i === step) ? '#fff' : 'var(--muted)',
                 marginRight: 6,
               }}>
-                {i < step ? '✓' : i + 1}
+                {i < step ? <Check size={12} aria-hidden /> : i + 1}
               </span>
               {label}
             </button>

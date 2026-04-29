@@ -1,7 +1,12 @@
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { artifactClient, ListedRun, Study } from '../services/artifactClient'
 import { listActiveStrategies, ActiveStrategySummary } from '../services/activeClient'
+import {
+  Menu, PanelLeftClose,
+  ListChecks, Plus, Library, Zap, Filter, HelpCircle,
+  ChevronRight,
+} from 'lucide-react'
 
 type SectionKey = 'runs' | 'active' | 'studies'
 
@@ -47,14 +52,16 @@ export default function Sidebar() {
   if (collapsed) {
     return (
       <nav style={{ ...sidebarBase, width: w, minWidth: w }}>
-        <button onClick={() => setCollapsed(false)} style={collapseBtn} title="Expand sidebar">☰</button>
-        <IconLink to="/runs" icon="📋" title="Runs" active={isActive('/runs') || isActive('/run') || isActive('/results') || isActive('/trades')} />
-        <IconLink to="/new" icon="+" title="New Sweep" active={isActive('/new')} />
-        <IconLink to="/studies" icon="📚" title="Studies" active={isActive('/studies')} />
-        <IconLink to="/active" icon="⚡" title="Active" active={isActive('/active')} />
-        <IconLink to="/screener" icon="◇" title="Screener" active={isActive('/screener')} />
+        <button onClick={() => setCollapsed(false)} style={collapseBtn} title="Expand sidebar" aria-label="Expand sidebar">
+          <Menu size={16} aria-hidden />
+        </button>
+        <IconLink to="/runs" icon={<ListChecks size={18} />} title="Runs" active={isActive('/runs') || isActive('/run') || isActive('/results') || isActive('/trades')} />
+        <IconLink to="/new" icon={<Plus size={18} />} title="New Sweep" active={isActive('/new')} />
+        <IconLink to="/studies" icon={<Library size={18} />} title="Studies" active={isActive('/studies')} />
+        <IconLink to="/active" icon={<Zap size={18} />} title="Active" active={isActive('/active')} />
+        <IconLink to="/screener" icon={<Filter size={18} />} title="Screener" active={isActive('/screener')} />
         <div style={{ flex: 1 }} />
-        <IconLink to="/help/expression-language" icon="?" title="Help" active={isActive('/help')} />
+        <IconLink to="/help/expression-language" icon={<HelpCircle size={18} />} title="Help" active={isActive('/help')} />
       </nav>
     )
   }
@@ -64,7 +71,9 @@ export default function Sidebar() {
     <nav style={{ ...sidebarBase, width: w, minWidth: w }}>
       {/* Collapse toggle */}
       <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '0 6px 4px' }}>
-        <button onClick={() => setCollapsed(true)} style={collapseBtn} title="Collapse sidebar">«</button>
+        <button onClick={() => setCollapsed(true)} style={collapseBtn} title="Collapse sidebar" aria-label="Collapse sidebar">
+          <PanelLeftClose size={16} aria-hidden />
+        </button>
       </div>
 
       {/* Runs accordion */}
@@ -85,7 +94,7 @@ export default function Sidebar() {
         </div>
       )}
 
-      <NavLink to="/new" label="+ New Sweep" active={isActive('/new')} />
+      <NavLink to="/new" icon={<Plus size={14} />} label="New Sweep" active={isActive('/new')} />
 
       {/* Studies accordion */}
       <SectionHeader
@@ -129,9 +138,9 @@ export default function Sidebar() {
         </div>
       )}
 
-      <NavLink to="/screener" label="◇ Screener" active={isActive('/screener')} />
+      <NavLink to="/screener" icon={<Filter size={14} />} label="Screener" active={isActive('/screener')} />
       <div style={{ flex: 1 }} />
-      <NavLink to="/help/expression-language" label="? Help" active={isActive('/help')} />
+      <NavLink to="/help/expression-language" icon={<HelpCircle size={14} />} label="Help" active={isActive('/help')} />
     </nav>
   )
 }
@@ -147,8 +156,15 @@ function RunTreeItem({ run, active, isActive }: {
     <div>
       <div style={treeItemStyle}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <button onClick={() => setOpen(o => !o)} style={miniChevronStyle}>
-            <span style={{ display: 'inline-block', transform: open ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.12s', fontSize: 8 }}>▶</span>
+          <button onClick={() => setOpen(o => !o)} style={miniChevronStyle} aria-label={open ? 'Collapse' : 'Expand'}>
+            <ChevronRight
+              size={10}
+              style={{
+                transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
+                transition: 'transform 0.12s',
+              }}
+              aria-hidden
+            />
           </button>
           <Link
             to={`/results/${id}`}
@@ -186,8 +202,15 @@ function ActiveTreeItem({ strat, active, isActive }: {
     <div>
       <div style={treeItemStyle}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <button onClick={() => setOpen(o => !o)} style={miniChevronStyle}>
-            <span style={{ display: 'inline-block', transform: open ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.12s', fontSize: 8 }}>▶</span>
+          <button onClick={() => setOpen(o => !o)} style={miniChevronStyle} aria-label={open ? 'Collapse' : 'Expand'}>
+            <ChevronRight
+              size={10}
+              style={{
+                transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
+                transition: 'transform 0.12s',
+              }}
+              aria-hidden
+            />
           </button>
           <span style={{
             display: 'inline-block', width: 6, height: 6, borderRadius: 3,
@@ -228,7 +251,14 @@ function SectionHeader({ label, count, open, active, onClick, href }: {
   return (
     <div style={{ ...sectionHeaderStyle, background: active ? 'rgba(96,165,250,0.08)' : 'transparent' }}>
       <button onClick={onClick} style={chevronBtnStyle} aria-label={`Toggle ${label}`}>
-        <span style={{ display: 'inline-block', transition: 'transform 0.15s', transform: open ? 'rotate(90deg)' : 'rotate(0deg)', fontSize: 10 }}>▶</span>
+        <ChevronRight
+          size={12}
+          style={{
+            transition: 'transform 0.15s',
+            transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
+          }}
+          aria-hidden
+        />
       </button>
       <Link to={href} style={{ ...sectionLabelStyle, color: active ? 'var(--link)' : 'var(--text)' }}>{label}</Link>
       <span style={countBadgeStyle}>{count}</span>
@@ -236,23 +266,28 @@ function SectionHeader({ label, count, open, active, onClick, href }: {
   )
 }
 
-function NavLink({ to, label, active }: { to: string; label: string; active: boolean }) {
+function NavLink({ to, label, active, icon }: { to: string; label: string; active: boolean; icon?: ReactNode }) {
   return (
     <Link to={to} style={{
       ...navLinkStyle,
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
       color: active ? 'var(--link)' : 'var(--muted)',
       background: active ? 'rgba(96,165,250,0.08)' : 'transparent',
-    }}>{label}</Link>
+    }}>
+      {icon && <span style={{ display: 'inline-flex', alignItems: 'center' }}>{icon}</span>}
+      <span>{label}</span>
+    </Link>
   )
 }
 
-function IconLink({ to, icon, title, active }: { to: string; icon: string; title: string; active: boolean }) {
+function IconLink({ to, icon, title, active }: { to: string; icon: ReactNode; title: string; active: boolean }) {
   return (
-    <Link to={to} title={title} style={{
+    <Link to={to} title={title} aria-label={title} style={{
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       width: 36, height: 36, margin: '2px auto',
       borderRadius: 8, textDecoration: 'none',
-      fontSize: 16,
       color: active ? 'var(--link)' : 'var(--muted)',
       background: active ? 'rgba(96,165,250,0.10)' : 'transparent',
     }}>{icon}</Link>

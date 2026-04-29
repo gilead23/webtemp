@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState, Fragment } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { artifactClient, toNum } from '../services/artifactClient'
 import Modal from '../components/ui/Modal'
+import { IconButton, IconButtonGroup } from '../components/ui/IconButton'
+import { SortIndicator } from '../components/ui/SortIndicator'
+import { LineChart, Plus, Star } from 'lucide-react'
 
 /** ======== DEBUG TRACE HELPERS (deterministic) ======== */
 const __RES_TAG = '[Results]'
@@ -364,9 +367,7 @@ function Table({
             <Th label="PD Std" k="perDayStd" sortKey={sortKey} sortDir={sortDir} onSort={onSort} />
             <Th label="Sharpe" k="sharpe" sortKey={sortKey} sortDir={sortDir} onSort={onSort} />
             <Th label="PF" k="profitFactor" sortKey={sortKey} sortDir={sortDir} onSort={onSort} />
-            <th style={{...th, textAlign:'center'}} title="Trades">TR</th>
-            <th style={{...th, textAlign:'center'}} title="New sweep from this perm">➕</th>
-            <th style={{...th, textAlign:'center'}} title="Promote to active">PR</th>
+            <th style={{...th, textAlign:'center'}}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -403,45 +404,43 @@ function Table({
                   <td style={td}>{fmtFixed(r.sharpe, 2)}</td>
                   <td style={td}>{fmtFixed(r.profitFactor, 2)}</td>
 
-                  {/* View trades (row-level) — TEXT GLYPH TO AVOID SVG/CSS COLLISIONS */}
                   <td style={{...td, textAlign:'center'}}>
-                    <button
-                      onClick={()=>goTrades(pid)}
-                      onMouseDown={()=>__RES_log('Trades icon mousedown', { runId, perm_id: pid })}
-                      onKeyDown={(e)=>{ if(e.key==='Enter'||e.key===' ') __RES_log('Trades icon key', { runId, perm_id: pid, key:e.key }) }}
-                      title="View trades for this permutation"
-                      style={glyphBtn}
-                      aria-label="view trades"
-                    >TR</button>
-                  </td>
-
-                  {/* Reseed (row-level) — TEXT GLYPH */}
-                  <td style={{...td, textAlign:'center'}}>
-                    <button
-                      onClick={()=>reseedSweep(pid)}
-                      onMouseDown={()=>__RES_log('Reseed icon mousedown', { runId, perm_id: pid })}
-                      title="Start new sweep from this permutation"
-                      style={glyphBtn}
-                      aria-label="new sweep from this run’s header.universe"
-                    >➕</button>
-                  </td>
-
-                  {/* Promote (row-level) — TEXT GLYPH */}
-                  <td style={{...td, textAlign:'center'}}>
-                    <button
-                      onClick={()=>onRequestPromote(pid)}
-                      onMouseDown={()=>__RES_log('Promote icon mousedown', { runId, perm_id: pid })}
-                      title="Promote this permutation to an active strategy"
-                      style={glyphBtn}
-                      aria-label="promote permutation"
-                      disabled={promoting}
-                    >PR</button>
+                    <IconButtonGroup>
+                      <IconButton
+                        icon={<LineChart />}
+                        label="View trades for this permutation"
+                        size="sm"
+                        onClick={() => {
+                          __RES_log('Trades icon click', { runId, perm_id: pid })
+                          goTrades(pid)
+                        }}
+                      />
+                      <IconButton
+                        icon={<Plus />}
+                        label="New sweep from this permutation"
+                        size="sm"
+                        onClick={() => {
+                          __RES_log('Reseed icon click', { runId, perm_id: pid })
+                          reseedSweep(pid)
+                        }}
+                      />
+                      <IconButton
+                        icon={<Star />}
+                        label="Promote to active strategy"
+                        size="sm"
+                        loading={promoting}
+                        onClick={() => {
+                          __RES_log('Promote icon click', { runId, perm_id: pid })
+                          onRequestPromote(pid)
+                        }}
+                      />
+                    </IconButtonGroup>
                   </td>
                 </tr>
 
                 {open && (
                   <tr>
-                    <td style={td} colSpan={17}>
+                    <td style={td} colSpan={15}>
                       <pre style={{ margin:0, whiteSpace:'pre-wrap', background:'var(--panel2)', border:'1px solid var(--line)', borderRadius:8, padding:'8px 10px' }}>
                         {renderHumanBlock(perm)}
                       </pre>
@@ -680,31 +679,13 @@ function fmtMDY(s: string): string {
 
 function Th({ label, k, sortKey, sortDir, onSort }:{ label:string, k: SortKey, sortKey: SortKey, sortDir: SortDir, onSort: (k:SortKey)=>void }){
   const active = k===sortKey
-  return <th style={th}><button onClick={()=>onSort(k)} style={thBtn}>{label}{' '}{active?(sortDir==='asc'?'▲':'▼'):'↕'}</button></th>
+  return <th style={th}><button onClick={()=>onSort(k)} style={thBtn}>{label}<SortIndicator active={active} direction={sortDir} /></button></th>
 }
 
 const th: React.CSSProperties = { textAlign:'left', borderBottom:'1px solid var(--line)', padding:'8px 6px' }
 const td: React.CSSProperties = { borderBottom:'1px solid var(--line)', padding:'8px 6px', verticalAlign:'top' }
 const btn: React.CSSProperties = { display:'inline-block', padding:'6px 10px', border:'1px solid var(--link)', color:'var(--link)', borderRadius:6, textDecoration:'none' }
 const btnPrimary: React.CSSProperties = { ...btn, background:'var(--link)', color:'#fff' }
-
-/** Text glyph buttons — guaranteed visible across hostile CSS */
-const glyphBtn: React.CSSProperties = {
-  width:24,
-  height:24,
-  display:'inline-flex',
-  alignItems:'center',
-  justifyContent:'center',
-  border:'1px solid var(--line)',
-  borderRadius:6,
-  background:'transparent',
-  cursor:'pointer',
-  fontSize:14,
-  fontWeight:700,
-  lineHeight:1,
-  padding:0,
-  color:'inherit',
-}
 
 /** Sortable table header button */
 const thBtn: React.CSSProperties = {

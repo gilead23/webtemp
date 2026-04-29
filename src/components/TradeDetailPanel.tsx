@@ -13,6 +13,8 @@
  */
 
 import React, { useEffect, useMemo, useState } from "react";
+import { X, Loader2, ChevronDown, ChevronUp } from "lucide-react";
+import { StatusBadge } from "./ui/StatusBadge";
 import {
   auditClient,
   DependencyNode,
@@ -455,7 +457,7 @@ function FlagSnapshotRow({ label, snap }: { label: string; snap: FlagSnapshotDat
     <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
       <div style={flagGateStyle(snap.ok, snap.gate)}>
         <span style={{ fontWeight: 600 }}>{label}</span>
-        <span>{snap.gate ? "✓ PASS" : snap.ok ? "✗ FAIL" : "⚠ ERR"}</span>
+        <StatusBadge status={snap.gate ? "pass" : snap.ok ? "fail" : "error"} />
         {snap.numeric != null && (
           <span style={{ color: "#d1d5db" }}>= {snap.numeric.toFixed(4)}</span>
         )}
@@ -761,8 +763,8 @@ export default function TradeDetailPanel({ context, onClose }: TradeDetailPanelP
           </span>
         </div>
         {onClose && (
-          <button style={closeBtn} onClick={onClose} title="Close">
-            ✕
+          <button style={closeBtn} onClick={onClose} title="Close" aria-label="Close">
+            <X size={14} aria-hidden />
           </button>
         )}
       </div>
@@ -831,7 +833,13 @@ export default function TradeDetailPanel({ context, onClose }: TradeDetailPanelP
                   }}
                 >
                   {dep.label}
-                  {isSelected && seriesLoading.has(dep.label) && " ⏳"}
+                  {isSelected && seriesLoading.has(dep.label) && (
+                    <Loader2
+                      size={11}
+                      style={{ marginLeft: 4, verticalAlign: 'middle', animation: 'icon-button-spin 0.7s linear infinite' }}
+                      aria-hidden
+                    />
+                  )}
                 </button>
               );
             })}
@@ -887,9 +895,15 @@ export default function TradeDetailPanel({ context, onClose }: TradeDetailPanelP
               color: "#9ca3af",
               background: showTable ? "#1f2937" : "transparent",
               marginBottom: "8px",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 4,
             }}
           >
-            {showTable ? "Hide Data Table ▲" : "Show Data Table ▼"}
+            {showTable ? "Hide Data Table" : "Show Data Table"}
+            {showTable
+              ? <ChevronUp size={12} aria-hidden />
+              : <ChevronDown size={12} aria-hidden />}
           </button>
           {showTable && (
             <div style={tableContainer}>

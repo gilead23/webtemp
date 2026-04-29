@@ -3,6 +3,9 @@ import { useParams, Link } from 'react-router-dom'
 import { activeClient, type ActiveDetail, type StopHistoryPayload } from '../services/activeClient'
 import Modal from '../components/ui/Modal'
 import CalendarPopover from '../components/ui/CalendarPopover'
+import { IconButton } from '../components/ui/IconButton'
+import { SortIndicator } from '../components/ui/SortIndicator'
+import { Calendar, Shield } from 'lucide-react'
 
 const __AS_log = (...args: any[]) => console.info('[ActiveStrategy]', ...args)
 
@@ -30,28 +33,15 @@ const thBtn: React.CSSProperties = {
   fontWeight: 600,
 }
 
-const glyphBtn: React.CSSProperties = {
-  width: 24,
-  height: 24,
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  border: '1px solid var(--line)',
-  borderRadius: 6,
-  background: 'transparent',
-  cursor: 'pointer',
-  fontSize: 14,
-  lineHeight: 1,
-  padding: 0,
-  color: 'var(--fg)',
-}
+
 
 function ThSort(props: { label: string; k: string; activeK: string; dir: SortDir; onSort: (k: any) => void }) {
   const active = props.activeK === props.k
   return (
     <th style={{ cursor: 'pointer' }}>
       <button style={thBtn} onClick={() => props.onSort(props.k)}>
-        {props.label} {active ? (props.dir === 'asc' ? '▲' : '▼') : '↕'}
+        {props.label}
+        <SortIndicator active={active} direction={props.dir} />
       </button>
     </th>
   )
@@ -488,7 +478,11 @@ export default function ActiveStrategy() {
                         onChange={(e) => setGenStartDate(e.target.value)}
                         onFocus={() => setShowCalStart(true)}
                       />
-                      <button className="button" onClick={() => setShowCalStart((s) => !s)} type="button">📅</button>
+                      <IconButton
+                        icon={<Calendar />}
+                        label="Pick start date"
+                        onClick={() => setShowCalStart((s) => !s)}
+                      />
                     </div>
                     {showCalStart && (
                       <CalendarPopover
@@ -518,7 +512,11 @@ export default function ActiveStrategy() {
                         onChange={(e) => setGenEndDate(e.target.value)}
                         onFocus={() => setShowCalEnd(true)}
                       />
-                      <button className="button" onClick={() => setShowCalEnd((s) => !s)} type="button">📅</button>
+                      <IconButton
+                        icon={<Calendar />}
+                        label="Pick end date"
+                        onClick={() => setShowCalEnd((s) => !s)}
+                      />
                     </div>
                     {showCalEnd && (
                       <CalendarPopover
@@ -601,9 +599,12 @@ export default function ActiveStrategy() {
                   <td>{d.stopDate ? formatYmd(Number(d.stopDate)) : ''}</td>
                   <td>{renderExit(latest.exit_kind, latest.exit_price)}</td>
                   <td>
-                    <button style={glyphBtn} onClick={() => toggleTradeStops(t.trade_id)} title="Stop history" aria-label="stop history">
-                      ⛨
-                    </button>
+                    <IconButton
+                      icon={<Shield />}
+                      label="Stop history"
+                      size="sm"
+                      onClick={() => toggleTradeStops(t.trade_id)}
+                    />
                   </td>
                 </tr>
               )

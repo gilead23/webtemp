@@ -385,3 +385,101 @@ mark.hl-active{ outline: 2px solid #fbbf24; }
 /* ===== Utility: subtle surfaces used across pages ===== */
 .surface{ background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); }
 .surface-2{ background: var(--panel2); border: 1px solid var(--line); border-radius: var(--r); }
+
+/* ── IconButton ──────────────────────────────────────────────────────────── */
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: var(--panel2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    transform 60ms ease,
+    box-shadow 120ms ease;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+}
+.icon-button:hover:not(:disabled) {
+  background: #1b2028;
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+.icon-button:active:not(:disabled) {
+  transform: translateY(1px);
+  background: #161b25;
+}
+.icon-button:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--focus);
+}
+.icon-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* danger variant — destructive actions like delete */
+.icon-button[data-variant="danger"]:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--err) 12%, var(--panel2));
+  border-color: var(--err);
+  color: var(--err);
+}
+.icon-button[data-variant="danger"]:focus-visible {
+  border-color: var(--err);
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--err) 35%, transparent);
+}
+
+/* ghost variant — borderless, for tight rows */
+.icon-button[data-variant="ghost"] {
+  background: transparent;
+  border-color: transparent;
+}
+.icon-button[data-variant="ghost"]:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: transparent;
+  color: var(--text);
+}
+
+.icon-button-glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+.icon-button-spin {
+  animation: icon-button-spin 0.7s linear infinite;
+}
+@keyframes icon-button-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Radix tooltip styling */
+.icon-button-tooltip {
+  background: var(--bg-elev);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  padding: 5px 9px;
+  font-size: 12px;
+  line-height: 1.2;
+  box-shadow: var(--shadow-2);
+  user-select: none;
+  z-index: 1000;
+  animation: icon-button-tooltip-in 120ms ease-out;
+}
+.icon-button-tooltip-arrow {
+  fill: var(--bg-elev);
+  stroke: var(--line-strong);
+  stroke-width: 1px;
+}
+@keyframes icon-button-tooltip-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}

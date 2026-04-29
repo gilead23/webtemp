@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Modal from "../components/ui/Modal";
 import { artifactClient } from "../services/artifactClient";
 import TradeDetailPanel from "../components/TradeDetailPanel";
+import { SortIndicator } from "../components/ui/SortIndicator";
 
 type TradeRow = {
   perm_id: string;
@@ -1124,7 +1125,6 @@ const TradesPage: React.FC = () => {
                 const isNum = NUMERIC_FIELDS.has(String(col.key));
                 const style = isNum ? headerCellNum : headerCell;
                 const active = sortKey === col.key;
-                const indicator = active ? (sortDir === "asc" ? "▲" : "▼") : "";
                 return (
                   <th
                     key={String(col.key)}
@@ -1142,7 +1142,7 @@ const TradesPage: React.FC = () => {
                     }}
                   >
                     <span>{col.label}</span>
-                    {indicator && <span style={{ marginLeft: 2 }}>{indicator}</span>}
+                    <SortIndicator active={active} direction={sortDir} />
                   </th>
                 );
               })}

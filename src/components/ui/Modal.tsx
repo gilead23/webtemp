@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useRef, useState } from 'react'
+import { X } from 'lucide-react'
 
 export default function Modal({
   title,
@@ -96,8 +97,20 @@ export default function Modal({
           style={{ justifyContent: 'space-between', alignItems: 'center' }}
         >
           <h3 style={{ margin: 0 }}>{title}</h3>
-          <button className="button ghost" onClick={onClose}>
-            ✕
+          <button
+            className="button ghost"
+            onClick={onClose}
+            aria-label="Close"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 4,
+              minWidth: 28,
+              minHeight: 28,
+            }}
+          >
+            <X size={16} aria-hidden />
           </button>
         </div>
         {children}

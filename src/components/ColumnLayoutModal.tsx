@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { X } from 'lucide-react'
 import ExpressionEditorModal from './ExpressionEditorModal'
 
 // ── Types ──────────────────────────────────────────────────────────────────
@@ -146,7 +147,7 @@ export default function ColumnLayoutModal({
           {/* Header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderBottom: '1px solid var(--line)', flexShrink: 0 }}>
             <h3 style={{ margin: 0, fontSize: 15 }}>Edit Columns</h3>
-            <button className="button ghost" onClick={onClose}>✕</button>
+            <button className="button ghost" onClick={onClose} aria-label="Close" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: 4, minWidth: 28, minHeight: 28 }}><X size={16} aria-hidden /></button>
           </div>
 
           {/* Load saved layout row */}
@@ -202,8 +203,14 @@ export default function ColumnLayoutModal({
                     <button className="button ghost" onClick={() => openEditColumn(i)} style={{ fontSize: 12, padding: '2px 8px', whiteSpace: 'nowrap' }}>
                       Edit
                     </button>
-                    <button className="button ghost" onClick={() => removeColumn(i)} style={{ color: 'var(--muted)', padding: '2px 6px' }} title="Remove">
-                      ✕
+                    <button
+                      className="button ghost"
+                      onClick={() => removeColumn(i)}
+                      style={{ color: 'var(--muted)', padding: '2px 6px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+                      title="Remove"
+                      aria-label="Remove column"
+                    >
+                      <X size={14} aria-hidden />
                     </button>
                   </div>
                 ))}

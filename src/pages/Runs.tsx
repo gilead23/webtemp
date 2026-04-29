@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Modal from '../components/ui/Modal';
+import { IconButton, IconButtonGroup } from '../components/ui/IconButton';
+import { SortIndicator } from '../components/ui/SortIndicator';
+import { BarChart3, Plus, FolderInput, Trash2 } from 'lucide-react';
 import { artifactClient, Study } from '../services/artifactClient';
 
 /** ======== DEBUG TRACE HELPERS ======== */
@@ -332,10 +335,7 @@ export default function Runs() {
           <col style={{width:80}} />  {/* Best Return */}
           <col style={{width:90}} />  {/* Best Per-Day */}
           <col style={{width:85}} />  {/* Best PF */}
-          <col style={{width:36}} />  {/* 📊 */}
-          <col style={{width:36}} />  {/* ➕ */}
-          <col style={{width:36}} />  {/* 📁 */}
-          <col style={{width:36}} />  {/* 🗑️ */}
+          <col style={{width:160}} /> {/* Actions */}
         </colgroup>
         <thead>
           <tr>
@@ -348,10 +348,7 @@ export default function Runs() {
             <Th label="Return" sortKey="bestReturn" sortKeyState={sortKey} sortDir={sortDir} onSort={onSort} />
             <Th label="Per-Day" sortKey="bestPerDayReturn" sortKeyState={sortKey} sortDir={sortDir} onSort={onSort} />
             <Th label="PF" sortKey="bestProfitFactor" sortKeyState={sortKey} sortDir={sortDir} onSort={onSort} />
-            <th style={{...th, textAlign:'center'}} title="Open results">📊</th>
-            <th style={{...th, textAlign:'center'}} title="New sweep from this run">➕</th>
-            <th style={{...th, textAlign:'center'}} title="Move to study">📁</th>
-            <th style={{...th, textAlign:'center'}} title="Delete run">🗑️</th>
+            <th style={{...th, textAlign:'center'}}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -367,20 +364,37 @@ export default function Runs() {
               <td style={tdNowrap}>{fmtPct(r.bestPerDayReturn)}</td>
               <td style={tdNowrap}>{fmtFixed(r.bestProfitFactor,3)}</td>
               <td style={{...tdNowrap, textAlign:'center'}}>
-                <button onClick={()=>openResults(r.id)} title="Open results" style={glyphBtn} aria-label="open results">📊</button>
-              </td>
-              <td style={{...tdNowrap, textAlign:'center'}}>
-                <button onClick={()=>newSweepFromRun(r.id)} title="Start new sweep from this run" style={glyphBtn} aria-label="new sweep">➕</button>
-              </td>
-              <td style={{...tdNowrap, textAlign:'center'}}>
-                <button onClick={()=>openMoveToStudy(r.id)} title="Move to study" style={glyphBtn} aria-label="move to study">📁</button>
-              </td>
-              <td style={{...tdNowrap, textAlign:'center'}}>
-                <button onClick={()=>requestDeleteRun(r.id)} title="Delete this run" style={glyphBtn} aria-label="delete run">🗑️</button>
+                <IconButtonGroup>
+                  <IconButton
+                    icon={<BarChart3 />}
+                    label="Open results"
+                    size="sm"
+                    onClick={() => openResults(r.id)}
+                  />
+                  <IconButton
+                    icon={<Plus />}
+                    label="New sweep from this run"
+                    size="sm"
+                    onClick={() => newSweepFromRun(r.id)}
+                  />
+                  <IconButton
+                    icon={<FolderInput />}
+                    label="Move to study"
+                    size="sm"
+                    onClick={() => openMoveToStudy(r.id)}
+                  />
+                  <IconButton
+                    icon={<Trash2 />}
+                    label="Delete run"
+                    size="sm"
+                    variant="danger"
+                    onClick={() => requestDeleteRun(r.id)}
+                  />
+                </IconButtonGroup>
               </td>
             </tr>
           ))}
-          {sorted.length === 0 && <tr><td colSpan={13} style={{padding:'12px 8px'}}><em>No runs match.</em></td></tr>}
+          {sorted.length === 0 && <tr><td colSpan={10} style={{padding:'12px 8px'}}><em>No runs match.</em></td></tr>}
         </tbody>
       </table>
       </div>
@@ -522,7 +536,8 @@ function Th(props: {label: string, sortKey: SortKey, sortKeyState: SortKey, sort
   return (
     <th style={th}>
       <button onClick={()=>onSort(sortKey)} style={thBtn}>
-        {label}{' '}{active ? (sortDir === 'asc' ? '▲' : '▼') : '↕'}
+        {label}
+        <SortIndicator active={active} direction={sortDir} />
       </button>
     </th>
   );
@@ -533,23 +548,6 @@ const td: React.CSSProperties = { borderBottom:'1px solid var(--line)', padding:
 const tdNowrap: React.CSSProperties = { ...td, whiteSpace:'nowrap' };
 const tdEllipsis: React.CSSProperties = { ...td, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', maxWidth:0 };
 
-/** Glyph button style mirroring Results */
-const glyphBtn: React.CSSProperties = {
-  width:24,
-  height:24,
-  display:'inline-flex',
-  alignItems:'center',
-  justifyContent:'center',
-  border:'1px solid var(--line)',
-  borderRadius:6,
-  background:'transparent',
-  cursor:'pointer',
-  fontSize:14,
-  lineHeight:1,
-  padding:0,
-  color:'var(--fg)',
-};
-
 const thBtn: React.CSSProperties = {
   background:'transparent',
   border:'none',
@@ -557,5 +555,7 @@ const thBtn: React.CSSProperties = {
   margin:0,
   color:'var(--fg)',
   cursor:'pointer',
-  fontWeight:600
+  fontWeight:600,
+  display:'inline-flex',
+  alignItems:'center',
 };

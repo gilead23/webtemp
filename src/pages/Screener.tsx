@@ -4,6 +4,10 @@ import ExpressionEditorModal from '../components/ExpressionEditorModal'
 import ColumnLayoutModal, { ColumnDef } from '../components/ColumnLayoutModal'
 import CalendarPopover from '../components/ui/CalendarPopover'
 import { SelectedStrategy } from '../components/StrategyPicker'
+import { IconButton } from '../components/ui/IconButton'
+import { SortIndicator } from '../components/ui/SortIndicator'
+import { Chevron } from '../components/ui/Chevron'
+import { Calendar, Loader2, Check } from 'lucide-react'
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -324,8 +328,8 @@ export default function Screener() {
   }
 
   function sortIndicator(col: string) {
-    if (sortCol !== col) return <span style={{ opacity: 0.25, fontSize: 10 }}> ↕</span>
-    return <span style={{ fontSize: 10 }}> {sortDir === 'asc' ? '▲' : '▼'}</span>
+    const active = sortCol === col
+    return <SortIndicator active={active} direction={sortDir} />
   }
 
   return (
@@ -333,8 +337,16 @@ export default function Screener() {
       <h1 style={{ margin: '6px 0 2px', fontSize: 18 }}>Screener</h1>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span className="hint">Evaluate an expression against the latest bar for every ticker.</span>
-        {preloading && <span className="badge" style={{ fontSize: 10, opacity: 0.7 }}>⏳ Warming cache…</span>}
-        {preloadDone && !preloading && <span className="badge" style={{ fontSize: 10, color: 'var(--ok)' }}>✓ Cache ready</span>}
+        {preloading && (
+          <span className="badge" style={{ fontSize: 10, opacity: 0.7, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            <Loader2 size={11} style={{ animation: 'icon-button-spin 0.7s linear infinite' }} aria-hidden /> Warming cache…
+          </span>
+        )}
+        {preloadDone && !preloading && (
+          <span className="badge" style={{ fontSize: 10, color: 'var(--ok)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            <Check size={11} aria-hidden /> Cache ready
+          </span>
+        )}
       </div>
 
       {/* ── Saved screens bar ── */}
@@ -418,7 +430,12 @@ export default function Screener() {
                 onChange={e => setAsOfDate(e.target.value)}
                 placeholder="latest" onFocus={() => setShowCal(true)} style={{ flex: 1 }}
               />
-              <button className="button" onClick={() => setShowCal(s => !s)} type="button" style={{ padding: '4px 8px' }}>📅</button>
+              <IconButton
+                icon={<Calendar />}
+                label="Pick as-of date"
+                size="sm"
+                onClick={() => setShowCal(s => !s)}
+              />
             </div>
             {showCal && (
               <CalendarPopover value={asOfDate} onPick={ymd => { setAsOfDate(ymd); setShowCal(false) }} onClose={() => setShowCal(false)} />
@@ -502,8 +519,8 @@ export default function Screener() {
 
           {result.errors.length > 0 && (
             <div>
-              <button className="button ghost" onClick={() => setShowErrors(e => !e)} style={{ fontSize: 12, color: 'var(--warn)' }}>
-                {result.errors.length} error{result.errors.length !== 1 ? 's' : ''} {showErrors ? '▼' : '▶'}
+              <button className="button ghost" onClick={() => setShowErrors(e => !e)} style={{ fontSize: 12, color: 'var(--warn)', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                {result.errors.length} error{result.errors.length !== 1 ? 's' : ''} <Chevron open={showErrors} />
               </button>
               {showErrors && (
                 <div style={{ maxHeight: 150, overflow: 'auto', fontSize: 12, marginTop: 4 }}>
